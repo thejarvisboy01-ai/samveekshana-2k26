@@ -117,7 +117,7 @@ const DEPARTMENTS_RAW = [
     date: 'March 11 & 12, 2026', location: 'AI Lab, New Block',
     rulebook: '/rulebook/rules and regulations  for samveekshana event AIDS.docx',
     rules: [
-      'Escape Room: Team of 2-4. Solve a series of puzzles and riddles within a time limit to escape.',
+      'Escape Room: Team of 2-4. Rs 300/- per team. Solve a series of puzzles and riddles within a time limit to escape.',
       'Tote Bag Painting: Individual. Rs 150/-. Creative expression on cotton bags provided by organizers (2-hour limit).',
       'Tote Bag Painting: Designs must be original. Pre-sketching or stencils are prohibited.',
       'Cheat hacks or harassment result in immediate disqualification.',
@@ -195,7 +195,7 @@ const EVENT_REGISTRATION_META: Record<string, { slug: string; fee: string }> = {
   BCA2: { slug: 'face-painting', fee: 'Rs. 50/-' },
   ECE1: { slug: 'technological-innovation-coding', fee: 'Rs. 100/- per team' },
   ECE2: { slug: 'brand-arena-plus', fee: 'Rs. 150/- per team' },
-  AI1: { slug: 'escape-room', fee: 'Rs. 100/- per team' },
+  AI1: { slug: 'escape-room', fee: 'Rs. 300/- per team' },
   AI2: { slug: 'tote-bag-painting', fee: 'Rs. 150/- per team' },
   CSBS1: { slug: 'roadies', fee: 'Rs. 80/- per head' },
   CSBS2: { slug: 'pitch-tank', fee: 'Rs. 80/- per head' },
@@ -653,13 +653,11 @@ export default function EventsSequence({ progress }: { progress: MotionValue<num
               />
             </div>
 
-            <div className="relative flex flex-col items-center gap-3 md:gap-0 z-20 w-full px-3 md:px-0">
+            <div className="relative flex flex-col items-center gap-3 md:gap-0 z-20 w-full px-2 md:px-0">
 
-              {/* Card row with nav buttons on either side */}
-              <div className="flex items-center justify-center gap-4 md:gap-16 w-full relative">
-
-                {/* PREV BUTTON - overlaid on left edge on mobile, beside card on desktop */}
+              <div className="md:hidden absolute inset-0 pointer-events-none">
                 <motion.button
+                  type="button"
                   onClick={(e) => {
                     e.stopPropagation();
                     const dept = DEPARTMENTS[activeIndex!];
@@ -669,7 +667,47 @@ export default function EventsSequence({ progress }: { progress: MotionValue<num
                       setActiveEventIndex(nextIdx);
                     }
                   }}
-                  className="pointer-events-auto flex w-12 h-12 md:w-20 md:h-20 border border-[#008080]/50 md:border-2 rounded-full items-center justify-center text-[#008080] hover:text-[#FFF8DC] hover:border-[#FFF8DC] transition-all bg-black/50 backdrop-blur-md group shrink-0 z-30"
+                  className="pointer-events-auto absolute left-1 top-1/2 -translate-y-1/2 w-11 h-11 border border-[#008080]/55 rounded-full flex items-center justify-center text-[#00d9d9] bg-black/55 backdrop-blur-sm z-30"
+                  whileTap={{ scale: 0.85 }}
+                >
+                  <ChevronLeft size={18} />
+                </motion.button>
+                <span className="absolute top-2 left-1/2 -translate-x-1/2 text-[10px] font-mono text-[#008080] tracking-widest">
+                  {String(activeEventIndex + 1).padStart(2, '0')} / {String((((DEPARTMENTS[activeIndex!] as any).events || []).length || 1)).padStart(2, '0')}
+                </span>
+                <motion.button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    const dept = DEPARTMENTS[activeIndex!];
+                    const events = (dept as any).events || [];
+                    if (events.length > 0) {
+                      setActiveEventIndex((activeEventIndex + 1) % events.length);
+                    }
+                  }}
+                  className="pointer-events-auto absolute right-1 top-1/2 -translate-y-1/2 w-11 h-11 border border-[#008080]/55 rounded-full flex items-center justify-center text-[#00d9d9] bg-black/55 backdrop-blur-sm z-30"
+                  whileTap={{ scale: 0.85 }}
+                >
+                  <ChevronRight size={18} />
+                </motion.button>
+              </div>
+
+              {/* Card row with nav buttons on either side */}
+              <div className="flex items-center justify-center gap-4 md:gap-16 w-full relative">
+
+                {/* PREV BUTTON - overlaid on left edge on mobile, beside card on desktop */}
+                <motion.button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    const dept = DEPARTMENTS[activeIndex!];
+                    const events = (dept as any).events || [];
+                    if (events.length > 0) {
+                      const nextIdx = activeEventIndex === 0 ? events.length - 1 : activeEventIndex - 1;
+                      setActiveEventIndex(nextIdx);
+                    }
+                  }}
+                  className="hidden md:flex pointer-events-auto w-12 h-12 md:w-20 md:h-20 border border-[#008080]/50 md:border-2 rounded-full items-center justify-center text-[#008080] hover:text-[#FFF8DC] hover:border-[#FFF8DC] transition-all bg-black/50 backdrop-blur-md group shrink-0 z-30"
                   whileHover={{ scale: 1.1, boxShadow: '0 0 30px rgba(0,128,128,0.6)' }}
                   whileTap={{ scale: 0.9 }}
                 >
@@ -679,15 +717,13 @@ export default function EventsSequence({ progress }: { progress: MotionValue<num
                 </motion.button>
                 {/* THE PROJECTED CARD REVEAL */}
                 <motion.div
-                  className="relative w-[min(78vw,560px)] md:w-[min(86vw,560px)] h-[min(128vw,680px)] md:h-[min(92vw,640px)] max-h-[90vh] pointer-events-auto flex items-center justify-center shadow-[0_0_100px_rgba(0,128,128,0.2)] md:shadow-[0_0_200px_rgba(0,128,128,0.3)] overflow-hidden"
+                  className="relative w-[min(92vw,560px)] md:w-[min(86vw,560px)] h-[min(128vw,680px)] md:h-[min(92vw,640px)] max-h-[90vh] pointer-events-auto flex items-center justify-center shadow-[0_0_100px_rgba(0,128,128,0.2)] md:shadow-[0_0_200px_rgba(0,128,128,0.3)] overflow-hidden"
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.2 }}
                   style={{
-                    maskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)',
-                    maskComposite: 'intersect',
-                    WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)',
-                    WebkitMaskComposite: 'source-in',
+                    maskImage: 'linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%)',
+                    WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%)',
                     transformStyle: 'preserve-3d'
                   }}
                 >
@@ -701,6 +737,7 @@ export default function EventsSequence({ progress }: { progress: MotionValue<num
 
                 {/* NEXT BUTTON - beside card on mobile too */}
                 <motion.button
+                  type="button"
                   onClick={(e) => {
                     e.stopPropagation();
                     const dept = DEPARTMENTS[activeIndex!];
@@ -709,7 +746,7 @@ export default function EventsSequence({ progress }: { progress: MotionValue<num
                       setActiveEventIndex((activeEventIndex + 1) % events.length);
                     }
                   }}
-                  className="pointer-events-auto flex w-12 h-12 md:w-20 md:h-20 border border-[#008080]/50 md:border-2 rounded-full items-center justify-center text-[#008080] hover:text-[#FFF8DC] hover:border-[#FFF8DC] transition-all bg-black/50 backdrop-blur-md group shrink-0 z-30"
+                  className="hidden md:flex pointer-events-auto w-12 h-12 md:w-20 md:h-20 border border-[#008080]/50 md:border-2 rounded-full items-center justify-center text-[#008080] hover:text-[#FFF8DC] hover:border-[#FFF8DC] transition-all bg-black/50 backdrop-blur-md group shrink-0 z-30"
                   whileHover={{ scale: 1.1, boxShadow: '0 0 30px rgba(0,128,128,0.6)' }}
                   whileTap={{ scale: 0.9 }}
                 >
@@ -901,7 +938,7 @@ function SwipeableInfo({ dept, eventIndex, setEventIndex, onOpenRulebook }: { de
               else paginate(-1);
             }
           }}
-          className="absolute w-full h-full bg-[#020608] border-2 border-[#008080]/50 rounded-sm flex flex-col cursor-grab active:cursor-grabbing shadow-[0_0_80px_rgba(0,128,128,0.4)] hover:shadow-[0_0_120px_rgba(0,128,128,0.6)] transition-shadow"
+          className="absolute w-full h-full bg-[#020608] border-2 border-[#008080]/50 rounded-sm overflow-x-hidden overflow-y-auto no-scrollbar flex flex-col cursor-grab active:cursor-grabbing shadow-[0_0_80px_rgba(0,128,128,0.4)] hover:shadow-[0_0_120px_rgba(0,128,128,0.6)] transition-shadow"
           style={{
             transformStyle: 'preserve-3d',
             backfaceVisibility: 'hidden'
@@ -930,7 +967,7 @@ function SwipeableInfo({ dept, eventIndex, setEventIndex, onOpenRulebook }: { de
           />
 
           {/* Square Card Layout - High Contrast */}
-          <div className="relative w-full h-[32%] md:h-[38%] shrink-0 overflow-hidden grayscale contrast-150">
+          <div className="relative w-full h-[27%] md:h-[38%] shrink-0 overflow-hidden grayscale contrast-150">
             <motion.div
               initial={{ scale: 1 }}
               whileHover={{ scale: 1.15 }}
@@ -960,13 +997,13 @@ function SwipeableInfo({ dept, eventIndex, setEventIndex, onOpenRulebook }: { de
           </div>
 
           <motion.div
-            className="px-4 md:px-10 py-3 md:py-5 flex-1 flex flex-col justify-start text-left min-h-0"
+            className="px-3 md:px-10 py-2.5 md:py-5 flex-1 flex flex-col justify-start text-left min-h-0"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.5 }}
           >
             <motion.div
-              className="text-[10px] md:text-[12px] font-mono text-[#008080] mb-1 md:mb-2 font-bold tracking-[0.5em] uppercase"
+              className="text-[9px] md:text-[12px] font-mono text-[#008080] mb-1 md:mb-2 font-bold tracking-[0.42em] md:tracking-[0.5em] uppercase"
               animate={{
                 textShadow: [
                   '0 0 10px rgba(0,128,128,0.3)',
@@ -980,7 +1017,7 @@ function SwipeableInfo({ dept, eventIndex, setEventIndex, onOpenRulebook }: { de
             </motion.div>
 
             <motion.h2
-              className="text-xl md:text-3xl font-mono font-bold text-[#FFF8DC] tracking-tighter uppercase mb-1 leading-none"
+              className="text-[28px] md:text-3xl font-mono font-bold text-[#FFF8DC] tracking-tighter uppercase mb-1 leading-none"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3, duration: 0.5 }}
@@ -989,7 +1026,7 @@ function SwipeableInfo({ dept, eventIndex, setEventIndex, onOpenRulebook }: { de
             </motion.h2>
 
             <motion.h3
-              className="text-[9px] font-mono tracking-[0.28em] md:tracking-[0.35em] text-[#D4AF37] uppercase mb-2 md:mb-4"
+              className="text-[8px] md:text-[9px] font-mono tracking-[0.22em] md:tracking-[0.35em] text-[#D4AF37] uppercase mb-2 md:mb-4"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4, duration: 0.5 }}
@@ -998,7 +1035,7 @@ function SwipeableInfo({ dept, eventIndex, setEventIndex, onOpenRulebook }: { de
             </motion.h3>
 
             <motion.p
-              className="font-mono text-[10px] md:text-[12px] text-[#FFF8DC]/80 leading-relaxed mb-2 md:mb-4"
+              className="font-mono text-[9.5px] md:text-[12px] text-[#FFF8DC]/80 leading-[1.5] mb-2.5 md:mb-4"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.5 }}
@@ -1007,7 +1044,7 @@ function SwipeableInfo({ dept, eventIndex, setEventIndex, onOpenRulebook }: { de
             </motion.p>
 
             <motion.div
-              className="mt-auto grid grid-cols-2 gap-3 md:gap-6 border-t border-[#008080]/30 pt-3 md:pt-4"
+              className="mt-auto grid grid-cols-2 gap-2 md:gap-6 border-t border-[#008080]/30 pt-2.5 md:pt-4"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6, duration: 0.5 }}
@@ -1016,14 +1053,14 @@ function SwipeableInfo({ dept, eventIndex, setEventIndex, onOpenRulebook }: { de
                 className="text-left"
                 whileHover={{ x: 5 }}
               >
-                <div className="text-[8px] md:text-[9px] text-[#008080] tracking-widest uppercase mb-1 font-bold">Time Log</div>
+                <div className="text-[7px] md:text-[9px] text-[#008080] tracking-[0.2em] md:tracking-widest uppercase mb-1 font-bold">Time Log</div>
                 <div className="text-[10px] md:text-[11px] text-[#FFF8DC] font-mono">{events[page].date}</div>
               </motion.div>
               <motion.div
                 className="text-left"
                 whileHover={{ x: 5 }}
               >
-                <div className="text-[8px] md:text-[9px] text-[#008080] tracking-widest uppercase mb-1 font-bold">Sector</div>
+                <div className="text-[7px] md:text-[9px] text-[#008080] tracking-[0.2em] md:tracking-widest uppercase mb-1 font-bold">Sector</div>
                 <div className="text-[10px] md:text-[11px] text-[#FFF8DC] font-mono">{events[page].location}</div>
               </motion.div>
             </motion.div>
@@ -1031,6 +1068,7 @@ function SwipeableInfo({ dept, eventIndex, setEventIndex, onOpenRulebook }: { de
             {/* ACTION BUTTONS */}
             <div className="mt-2 md:mt-4 space-y-2 pointer-events-auto">
               <motion.button
+                type="button"
                 className="w-full relative overflow-hidden group"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -1047,22 +1085,23 @@ function SwipeableInfo({ dept, eventIndex, setEventIndex, onOpenRulebook }: { de
                   animate={{ x: ['-100%', '100%'] }}
                   transition={{ duration: 1.8, repeat: Infinity, ease: 'linear' }}
                 />
-                <div className="relative border border-[#D4AF37] py-3.5 px-4 flex items-center justify-between bg-[#D4AF37]/25 shadow-[0_0_25px_rgba(212,175,55,0.3)] hover:bg-[#D4AF37]/35 transition-colors">
-                  <div className="flex items-center gap-3">
+                <div className="relative border border-[#D4AF37] py-2.5 md:py-3.5 px-3 md:px-4 flex items-center justify-between gap-2 bg-[#D4AF37]/25 shadow-[0_0_25px_rgba(212,175,55,0.3)] hover:bg-[#D4AF37]/35 transition-colors">
+                  <div className="flex items-center gap-2.5 md:gap-3 min-w-0">
                     <motion.div
-                      className="w-5 h-5 border-2 border-[#D4AF37] flex items-center justify-center"
+                      className="w-4 h-4 md:w-5 md:h-5 border-2 border-[#D4AF37] flex items-center justify-center shrink-0"
                       animate={{ rotateY: [0, 180, 360] }}
                       transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
                     >
-                      <div className="w-2.5 h-2.5 bg-[#D4AF37] shadow-[0_0_8px_#D4AF37]" />
+                      <div className="w-2 h-2 md:w-2.5 md:h-2.5 bg-[#D4AF37] shadow-[0_0_8px_#D4AF37]" />
                     </motion.div>
-                    <span className="text-[11px] md:text-[13px] font-mono tracking-[0.24em] md:tracking-[0.4em] text-[#FFF8DC] uppercase font-black drop-shadow-lg">REGISTER NOW</span>
+                    <span className="text-[10px] md:text-[13px] font-mono tracking-[0.18em] md:tracking-[0.4em] text-[#FFF8DC] uppercase font-black leading-tight drop-shadow-lg">REGISTER NOW</span>
                   </div>
-                  <span className="text-[10px] md:text-[11px] font-mono font-bold text-[#D4AF37] bg-black/40 px-2 py-0.5 rounded-sm">{getRegistrationMeta(events[page]).fee}</span>
+                  <span className="shrink-0 text-[9px] md:text-[11px] font-mono font-bold text-[#D4AF37] bg-black/40 px-2 py-0.5 rounded-sm">{getRegistrationMeta(events[page]).fee}</span>
                 </div>
               </motion.button>
 
               <motion.button
+                type="button"
                 className="w-full relative overflow-hidden group"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -1079,23 +1118,23 @@ function SwipeableInfo({ dept, eventIndex, setEventIndex, onOpenRulebook }: { de
                   animate={{ x: ['-100%', '100%'] }}
                   transition={{ duration: 2, repeat: Infinity, ease: 'linear', repeatDelay: 1 }}
                 />
-                <div className="relative border border-[#00FFFF]/50 group-hover:border-[#D4AF37]/90 transition-all duration-300 py-3.5 px-4 flex items-center justify-between bg-black/40 group-hover:bg-[#D4AF37]/10">
-                  <div className="flex items-center gap-3">
+                <div className="relative border border-[#00FFFF]/50 group-hover:border-[#D4AF37]/90 transition-all duration-300 py-2.5 md:py-3.5 px-3 md:px-4 flex items-center justify-between gap-2 bg-black/40 group-hover:bg-[#D4AF37]/10">
+                  <div className="flex items-center gap-2.5 md:gap-3 min-w-0">
                     <motion.div
-                      className="w-5 h-5 border-2 border-[#00FFFF]/70 group-hover:border-[#D4AF37] transition-colors flex items-center justify-center"
+                      className="w-4 h-4 md:w-5 md:h-5 border-2 border-[#00FFFF]/70 group-hover:border-[#D4AF37] transition-colors flex items-center justify-center shrink-0"
                       animate={{ rotateY: [0, 180, 360] }}
                       transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
                     >
-                      <div className="w-2.5 h-2.5 bg-[#00FFFF] group-hover:bg-[#D4AF37] transition-colors shadow-[0_0_8px_rgba(0,255,255,0.6)]" />
+                      <div className="w-2 h-2 md:w-2.5 md:h-2.5 bg-[#00FFFF] group-hover:bg-[#D4AF37] transition-colors shadow-[0_0_8px_rgba(0,255,255,0.6)]" />
                     </motion.div>
-                    <span className="text-[11px] md:text-[13px] font-mono tracking-[0.2em] md:tracking-[0.4em] text-[#00FFFF] group-hover:text-[#FFF8DC] transition-colors uppercase font-black drop-shadow-[0_0_10px_rgba(0,255,255,0.5)]">ACCESS RULE BOOK</span>
+                    <span className="text-[10px] md:text-[13px] font-mono tracking-[0.16em] md:tracking-[0.4em] text-[#00FFFF] group-hover:text-[#FFF8DC] transition-colors uppercase font-black leading-tight drop-shadow-[0_0_10px_rgba(0,255,255,0.5)]">ACCESS RULE BOOK</span>
                   </div>
-                  <div className="flex items-center gap-1.5 opacity-80">
+                  <div className="flex items-center gap-1 md:gap-1.5 opacity-80 shrink-0">
                     {[...Array(3)].map((_, i) => (
                       <motion.div
                         key={i}
-                        className="w-[3px] bg-[#00FFFF] group-hover:bg-[#D4AF37] transition-colors"
-                        animate={{ height: ['8px', '20px', '8px'] }}
+                        className="w-[2px] md:w-[3px] bg-[#00FFFF] group-hover:bg-[#D4AF37] transition-colors"
+                        animate={{ height: ['6px', '16px', '6px'] }}
                         transition={{ duration: 0.6, delay: i * 0.15, repeat: Infinity }}
                       />
                     ))}
@@ -1288,6 +1327,21 @@ function HolographicRulebook({
 
           {/* Inner top shimmer */}
           <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-[#008080]/60 to-transparent" />
+
+          {event.rulebook && (
+            <div className="relative z-10 px-3 pt-3 md:hidden">
+              <motion.a
+                href={event.rulebook}
+                download
+                className="inline-flex w-full items-center justify-center gap-2 border border-[#D4AF37]/50 bg-[#D4AF37]/10 px-3 py-2 text-[#D4AF37] transition-all rounded-sm"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <Download size={13} />
+                <span className="text-[10px] font-mono font-bold uppercase tracking-[0.18em]">Download Rulebook</span>
+              </motion.a>
+            </div>
+          )}
 
           {/* Boot Phase */}
           {phase === 'boot' && (

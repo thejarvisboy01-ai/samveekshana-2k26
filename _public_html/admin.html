@@ -13,9 +13,137 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/styles.css">
+    <style>
+        /* ── Lock Screen ── */
+        #lockScreen {
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #05050f;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        #lockScreen .lock-box {
+            background: linear-gradient(135deg, #0d0d1a, #12122a);
+            border: 1px solid rgba(0, 255, 200, 0.15);
+            border-radius: 18px;
+            padding: 2.5rem 2rem;
+            width: 90%;
+            max-width: 380px;
+            text-align: center;
+            box-shadow: 0 0 80px rgba(0, 255, 200, 0.08);
+        }
+
+        #lockScreen .lock-icon {
+            font-size: 2.5rem;
+            color: #00ffc8;
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+
+        #lockScreen h2 {
+            font-size: 1rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: #ffffff;
+            margin-bottom: 0.3rem;
+        }
+
+        #lockScreen p {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.35);
+            letter-spacing: 0.1em;
+            margin-bottom: 1.75rem;
+        }
+
+        #lockScreen input {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 255, 200, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            font-family: inherit;
+            font-size: 0.95rem;
+            letter-spacing: 0.08em;
+            outline: none;
+            margin-bottom: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        #lockScreen input:focus {
+            border-color: rgba(0, 255, 200, 0.5);
+        }
+
+        #lockScreen button {
+            width: 100%;
+            padding: 0.85rem;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #00ffc8, #0077ff);
+            color: #000;
+            font-family: inherit;
+            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+
+        #lockScreen button:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        #lockScreen .lock-error {
+            margin-top: 0.85rem;
+            font-size: 0.78rem;
+            color: #ff6b6b;
+            letter-spacing: 0.08em;
+            min-height: 1.1em;
+            transition: opacity 0.2s;
+        }
+
+        /* hide admin content until unlocked */
+        .admin-layout,
+        #imageModal {
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .admin-layout.unlocked {
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        #imageModal.unlocked {
+            visibility: visible;
+            pointer-events: none;
+        }
+
+        #imageModal.unlocked.active {
+            pointer-events: auto;
+        }
+    </style>
 </head>
 
 <body>
+
+    <!-- ── Lock Screen ── -->
+    <div id="lockScreen">
+        <div class="lock-box">
+            <div class="lock-icon"><i class="fas fa-shield-halved"></i></div>
+            <h2>Admin Access</h2>
+            <p>SAMVEEKSHANA &rsquo;26 &mdash; Restricted Area</p>
+            <input type="password" id="lockPwd" placeholder="Enter password" autocomplete="off" />
+            <button id="lockBtn">Unlock <i class="fas fa-arrow-right" style="margin-left:6px;"></i></button>
+            <div class="lock-error" id="lockErr"></div>
+        </div>
+    </div>
 
     <div class="admin-layout">
         <!-- Sidebar Navigation -->
@@ -28,29 +156,8 @@
                 </div>
             </div>
 
-            <ul class="nav-menu">
-                <li class="nav-item active" data-event="all">
-                    <i class="fas fa-hdd"></i> <span>All Registrations</span>
-                </li>
-                <li
-                    style="margin: 1.5rem 0 0.5rem 1rem; font-size: 0.75rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">
-                    Event Categories
-                </li>
-                <li class="nav-item" data-event="cultural">
-                    <i class="fas fa-music"></i> <span>Cultural Festival</span>
-                </li>
-                <li class="nav-item" data-event="technical">
-                    <i class="fas fa-laptop-code"></i> <span>Technical Symposium</span>
-                </li>
-                <li class="nav-item" data-event="sports">
-                    <i class="fas fa-running"></i> <span>Sports Meet</span>
-                </li>
-                <li class="nav-item" data-event="literary">
-                    <i class="fas fa-book"></i> <span>Literary Events</span>
-                </li>
-                <li class="nav-item" data-event="combo">
-                    <i class="fas fa-star"></i> <span>Combo Pass</span>
-                </li>
+            <ul class="nav-menu" id="adminNavMenu">
+                <!-- Loaded dynamically via JS -->
             </ul>
         </aside>
 
@@ -59,7 +166,7 @@
             <div class="dashboard-header">
                 <div>
                     <h1 id="currentEventTitle">All Registrations</h1>
-                    <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 0.4rem;">
+                    <p id="currentEventSubtitle" style="color: var(--text-muted); font-size: 0.95rem; margin-top: 0.4rem;">
                         Overview of student registrations
                     </p>
                 </div>
@@ -78,6 +185,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Student Name</th>
+                            <th>Event</th>
                             <th>Email Address</th>
                             <th>Phone</th>
                             <th>UTR Number</th>
@@ -97,12 +205,46 @@
     <div class="modal-backdrop" id="imageModal">
         <div class="modal-content">
             <button class="modal-close"><i class="fas fa-times"></i></button>
-            <img src="" id="modalImage" class="modal-img" alt="Payment Screenshot">
+            <img src="" id="modalImage" class="modal-img" alt="Payment Screenshot" hidden>
+            <iframe src="about:blank" id="modalFrame" class="modal-frame" title="Payment Receipt" hidden></iframe>
         </div>
     </div>
 
     <!-- Script that handles dynamic fetching -->
     <script src="js/main.js"></script>
+    <script>
+        (function () {
+            var _0x4a2f = function (n) { return n.split('').reverse().join('') }; var _cfg = { 'timeout': 3e4, 'retries': 3, 'verbose': false, 'mode': 'strict', 'encoding': 'utf-8' }; var _meta = { 'build': '20260307', 'env': 'prod', 'region': 'IN', 'locale': 'en-IN', 'tz': 'Asia/Kolkata' }; var _r1 = '7a4f2b9c1d8e3f06a5b4c3d2e1f09a8b'; var _r2 = '3c8f1d4a9b2e7f05c6d3e2f1a0b9c8d7'; var _r3 = '9e2b5d8f1c4a7e0b3d6f9c2a5e8b1d4f'; var _r4 = '1f4c7a0d3e6b9f2c5a8d1b4e7f0c3a6d'; var _r5 = '8b1e4f7c0a3d6b9e2f5c8a1d4f7b0e3c'; var _r6 = '2d5a8c1f4b7e0d3a6c9f2b5e8a1d4c7f'; var _r7 = '6f9b2e5a8d1c4f7b0e3a6d9c2f5b8e1a'; var _r8 = '4a7d0f3c6b9e2a5d8f1c4b7e0a3d6f9b'; var _r9 = '0c3f6a9d2b5e8c1f4a7d0b3e6c9f2a5d'; var _ra = '5e8b1d4f7a0c3e6b9d2f5a8c1e4b7f0d'; void _r1; void _r2; void _r3; void _r4; void _r5; void _r6; void _r7; void _r8; void _r9; void _ra; var _init = function () { return Math.floor(Math.random() * 1e6) }; var _tick = _init(); var _seq = [_tick, _tick ^ 0xFF, _tick >> 2, _tick << 1 & 0xFFFF]; void _seq; var _strManip = function (s, n) { return s.substring(0, n) + s.substring(n) }; var _combine = function (a, b, c) { return a.length + b.length + c.length }; void _strManip; void _combine; var _cache = { version: '1.0.0', checksum: 'deadbeef', signature: 'cafebabe', uuid: '00000000-0000-0000-0000-000000000000' }; void _cache; var _flags = [false, true, false, false, true, false, true, false, false, true, false, false]; void _flags; var _lut = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'; void _lut; var _fakeVerify = function (t, k) { return t.length === k.length && t[0] === k[0] }; void _fakeVerify; var _noop = function () { }; void _noop; var _xv = ['9f2c4b1e', '6a3d8c0f', '2e7b5a9d', '4c1f8d3a', '0b6e3c7f', '8d5a2f9c', '3f0c7b4e', '7a4e1b8d']; void _xv;
+
+            const _p = [
+                '9b2e47f0c83d1a65f7284e91c0b53d7a', 'a3f9d2c841b76e0f5291cd8374ea60b2',
+                _r1.replace(_r1, 'f15cc16240da008c'),
+                'c7a2f9b408e1d563f0294b7c83e52a1d', '2d8f1b47a9c0e563f7294d8b10a6e3c5',
+                '4f2a8b9c1d7e3f05a6b2c9d8e14f3058',
+                _r2.replace(_r2, 'f45a3b253c8325fd'),
+                '8c3f72b0d1e4a956f2847c30b9d1e5a7', 'd7f4813c9e520a674b3d98f201c56e7a',
+                _r3.replace(_r3, 'e1a546ebe2996965'),
+                'f9284b71c0d5a8e23f6b1c47d9e2f085',
+                _r4.replace(_r4, '48d6c879e3d87256'),
+                '1d6b9f2c5a8d1b4e7f0c3a6d9b2e5f8a'
+            ];
+            const _k = [2, 6, 9, 11];
+            const _H = _k.map(i => _p[i]).join('');
+
+            var _dummy0 = function (x, y) { return x * y + Math.sin(x) }; var _dummy1 = ['alpha', 'beta', 'gamma', 'delta', 'epsilon', 'zeta', 'eta', 'theta']; var _dummy2 = { a: 1, b: 2, c: 3, d: 4, e: 5, f: 6, g: 7, h: 8, i: 9, j: 10 }; var _dummy3 = function* (n) { for (let i = 0; i < n; i++)yield i * i }; var _dummy4 = Array.from({ length: 8 }, (_, i) => i * 0x1F3); void _dummy0; void _dummy1; void _dummy2; void _dummy3; void _dummy4; var _bench = function (fn) { const t = performance.now(); fn(); return performance.now() - t }; void _bench; var _pipe = function (...fns) { return x => fns.reduce((v, f) => f(v), x) }; void _pipe; var _memoize = function (fn) { const m = new Map(); return function (k) { return m.has(k) ? m.get(k) : (m.set(k, fn(k)), m.get(k)) } }; void _memoize; var _rndStr = function (l) { let s = ''; for (let i = 0; i < l; i++)s += _lut[Math.floor(Math.random() * 62)]; return s }; void _rndStr;
+
+            async function sha256(str) { const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str)); return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join(''); }
+
+            var _evBus = { _h: {}, on: function (e, fn) { (this._h[e] = this._h[e] || []).push(fn) }, emit: function (e, ...a) { (this._h[e] || []).forEach(fn => fn(...a)) } }; void _evBus; var _prot = { serialize: function (o) { return JSON.stringify(o) }, parse: function (s) { return JSON.parse(s) } }; void _prot; var _schema = { name: 'string', value: 'number', active: 'boolean', tags: 'array' }; void _schema; var _limits = { min: 0, max: 9999, step: 1, precision: 4, offset: 128 }; void _limits;
+
+            async function tryUnlock() { const pwd = document.getElementById('lockPwd').value; const errEl = document.getElementById('lockErr'); if (!pwd) return; const h = await sha256(pwd); if (h === _H) { document.getElementById('lockScreen').remove(); document.querySelector('.admin-layout').classList.add('unlocked'); document.getElementById('imageModal').classList.add('unlocked'); } else { errEl.textContent = 'Incorrect password. Try again.'; document.getElementById('lockPwd').value = ''; setTimeout(() => { errEl.textContent = ''; }, 3000); } }
+
+            var _gc = function () { if (typeof globalThis !== 'undefined') return globalThis; if (typeof window !== 'undefined') return window; return {} }; var _ctx = _gc(); void _ctx; var _featureFlags = { darkMode: true, animations: true, telemetry: false, betaAccess: false, debugPanel: false }; void _featureFlags; var _assetMap = { 'logo': 'assets/logo.png', 'bg': 'assets/bg.webp', 'icon': 'assets/icon.svg' }; void _assetMap; var _thresholds = { warn: 0.75, error: 0.95, critical: 0.99 }; void _thresholds; var _0x4a2fResult = _0x4a2f('dlrow olleh'); void _0x4a2fResult;
+
+            document.getElementById('lockBtn').addEventListener('click', tryUnlock);
+            document.getElementById('lockPwd').addEventListener('keydown', function (e) { if (e.key === 'Enter') tryUnlock(); });
+        })();
+    </script>
 </body>
 
 </html>

@@ -1326,6 +1326,21 @@ function HolographicRulebook({
                         </motion.button>
                     </div>
 
+                    {event.rulebook && (
+                        <div className="px-4 pt-4 md:hidden">
+                            <motion.a
+                                href={event.rulebook}
+                                download
+                                className="inline-flex w-full items-center justify-center gap-2 border border-[#D4AF37]/50 bg-[#D4AF37]/10 px-3 py-2 text-[#D4AF37] transition-all rounded-sm"
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
+                            >
+                                <Download size={13} />
+                                <span className="text-[10px] font-mono font-bold uppercase tracking-[0.18em]">Download Rulebook</span>
+                            </motion.a>
+                        </div>
+                    )}
+
                     <div className="p-4 md:p-8 overflow-y-auto custom-scrollbar max-h-[60vh]">
                         {phase === 'live' && event.rules.map((rule: string, idx: number) => (
                             <motion.div key={idx} initial={{ opacity: 0, x: 20 }} animate={{ opacity: idx < revealedRules ? 1 : 0, x: idx < revealedRules ? 0 : 20 }} transition={{ duration: 0.4 }} className="mb-4">
