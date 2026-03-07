@@ -1051,6 +1051,12 @@ function CentralSwipeableInfo({
                         if (offset.x < -40) paginate(1);
                         else if (offset.x > 40) paginate(-1);
                     }}
+                    onWheel={(e) => {
+                        if (Math.abs(e.deltaX) > 30) {
+                            if (e.deltaX > 0) paginate(1);
+                            else paginate(-1);
+                        }
+                    }}
                     className="absolute w-full h-full md:w-[600px] md:h-[650px] bg-[#020608] border-2 border-[#008080]/50 rounded-sm overflow-hidden flex flex-col cursor-grab active:cursor-grabbing shadow-[0_0_80px_rgba(0,128,128,0.4)] hover:shadow-[0_0_120px_rgba(0,128,128,0.6)] transition-shadow overflow-y-auto no-scrollbar"
                     style={{ transformStyle: 'preserve-3d', backfaceVisibility: 'hidden' }}
                     whileHover={{ boxShadow: '0 0 120px rgba(0,128,128,0.6), inset 0 0 40px rgba(0,128,128,0.1)' }}

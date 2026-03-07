@@ -170,11 +170,16 @@ const DEPARTMENT_DISPLAY_ORDER = ['CSE', 'AI', 'ME', 'CV', 'ECE', 'EEE', 'BCA', 
 const departmentOrderIndex = new Map<string, number>(
   DEPARTMENT_DISPLAY_ORDER.map((id, index) => [id, index])
 );
-const DEPARTMENTS = [...DEPARTMENTS_RAW].sort((a, b) => {
-  const aIndex = departmentOrderIndex.get(a.id) ?? Number.MAX_SAFE_INTEGER;
-  const bIndex = departmentOrderIndex.get(b.id) ?? Number.MAX_SAFE_INTEGER;
-  return aIndex - bIndex;
-});
+const DEPARTMENTS = [...DEPARTMENTS_RAW]
+  .sort((a, b) => {
+    const aIndex = departmentOrderIndex.get(a.id) ?? Number.MAX_SAFE_INTEGER;
+    const bIndex = departmentOrderIndex.get(b.id) ?? Number.MAX_SAFE_INTEGER;
+    return aIndex - bIndex;
+  })
+  .map(dept => ({
+    ...dept,
+    events: dept.events.map(ev => ({ ...ev, rulebook: dept.rulebook }))
+  }));
 
 const REGISTRATION_BASE_URL = process.env.NEXT_PUBLIC_REGISTRATION_URL || 'https://register.samveekshana.tech/';
 const EVENT_REGISTRATION_META: Record<string, { slug: string; fee: string }> = {
@@ -887,13 +892,16 @@ function SwipeableInfo({ dept, eventIndex, setEventIndex, onOpenRulebook }: { de
           dragConstraints={{ left: 0, right: 0 }}
           dragElastic={0.4}
           onDragEnd={(e: any, { offset }: any) => {
-            if (offset.x < -40) {
-              paginate(1);
-            } else if (offset.x > 40) {
-              paginate(-1);
+            if (offset.x < -40) paginate(1);
+            else if (offset.x > 40) paginate(-1);
+          }}
+          onWheel={(e) => {
+            if (Math.abs(e.deltaX) > 30) {
+              if (e.deltaX > 0) paginate(1);
+              else paginate(-1);
             }
           }}
-          className="absolute w-full h-full bg-[#020608] border-2 border-[#008080]/50 rounded-sm overflow-hidden overflow-y-auto no-scrollbar flex flex-col cursor-grab active:cursor-grabbing shadow-[0_0_80px_rgba(0,128,128,0.4)] hover:shadow-[0_0_120px_rgba(0,128,128,0.6)] transition-shadow"
+          className="absolute w-full h-full bg-[#020608] border-2 border-[#008080]/50 rounded-sm flex flex-col cursor-grab active:cursor-grabbing shadow-[0_0_80px_rgba(0,128,128,0.4)] hover:shadow-[0_0_120px_rgba(0,128,128,0.6)] transition-shadow"
           style={{
             transformStyle: 'preserve-3d',
             backfaceVisibility: 'hidden'
