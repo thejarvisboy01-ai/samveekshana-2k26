@@ -15,7 +15,6 @@ const DEPARTMENTS_RAW = [
     rules: [
       'Technical Quiz: Team of 2. 6 rounds covering visual and technical questions. 60 seconds per question.',
       'Shut the Box: Player rolls 2 dice and flips number tiles to match the sum. Lowest score wins round.',
-      'Tambola: Get a 3x9 ticket. Win by getting Early Five, Lines, or Full House as numbers are called.',
       'Participants must check in one hour prior to the commencement of the event.',
       'Replacement of any participant of a team is not allowed after the 1st round.',
       'The verdict of the judging panel shall be deemed final and irrevocable.',
@@ -23,7 +22,6 @@ const DEPARTMENTS_RAW = [
     events: [
       { id: 'CV1', title: 'Technical Quiz', description: 'Team of 2. 6 rounds covering visual and technical questions. 60 seconds per question.', image: '/events/tech quiz.png', date: 'March 11 & 12, 2026', location: 'CV Department Block' },
       { id: 'CV2', title: 'Shut the Box', description: 'Player rolls 2 dice and flips number tiles to match the sum. Lowest score wins round.', image: '/events/shut the box .png', date: 'March 11 & 12, 2026', location: 'CV Department Block' },
-      { id: 'CV3', title: 'Tambola', description: 'Get a 3x9 ticket. Win by getting Early Five, Lines, or Full House as numbers are called.', image: '/events/tambola.png', date: 'March 11 & 12, 2026', location: 'CV Department Block' }
     ]
   },
   {
@@ -52,16 +50,14 @@ const DEPARTMENTS_RAW = [
     date: 'March 11 & 12, 2026', location: 'EEE Department Block',
     rulebook: '/rulebook/Events _ Samveekshana 2026_Budget_EEE.docx',
     rules: [
-      'Slow Cycling: Individual. Rs 50/-. Reach the finish line as slowly as possible without touching the ground.',
       'TechnoFusion: Team of 2-3. Rs 150/-. Rounds: IQ Quiz, Technical Dumb Charades, and Treasure Hunt.',
       'Innovate to Elevate: Team of 2-3. Rs 100/-. Build the tallest free-standing structure using auctioned materials.',
       'Circuit designs must be original and adhere to safety norms.',
       'Prizes for winners and runners-up in each category.',
     ],
     events: [
-      { id: 'EEE1', title: 'Slow Cycling', description: 'Reach the finish line as slowly as possible without touching the ground.', image: '/events/slow cycling.png', date: 'March 11 & 12, 2026', location: 'EEE Department Block' },
-      { id: 'EEE2', title: 'TechnoFusion', description: 'IQ Quiz, Technical Dumb Charades, and Treasure Hunt series.', image: '/events/techno fusion.png', date: 'March 11 & 12, 2026', location: 'EEE Department Block' },
-      { id: 'EEE3', title: 'Innovate to Elevate', description: 'Build the tallest free-standing structure using auctioned materials.', image: '/events/inovate to elevate.png', date: 'March 11 & 12, 2026', location: 'EEE Department Block' }
+      { id: 'EEE1', title: 'TechnoFusion', description: 'IQ Quiz, Technical Dumb Charades, and Treasure Hunt series.', image: '/events/techno fusion.png', date: 'March 11 & 12, 2026', location: 'EEE Department Block' },
+      { id: 'EEE2', title: 'Innovate to Elevate', description: 'Build the tallest free-standing structure using auctioned materials.', image: '/events/inovate to elevate.png', date: 'March 11 & 12, 2026', location: 'EEE Department Block' },
     ]
   },
   {
@@ -73,15 +69,12 @@ const DEPARTMENTS_RAW = [
     rules: [
       'UI/UX Redesigning: Individual. Rs 50/- fee. Redesign a given website/app interface within 2 hours using Figma/Adobe XD.',
       'Blind Coding: Individual. Rs 50/- fee. Solve programming problems with screen hidden. 4 hours in two rounds. No internet.',
-      'Capture The Flag: Team of 5. Rs 200/- fee. Solve cybersecurity-based challenges (Web, Crypto, Pwn, etc.) within 2-3 hours.',
-      'Internet usage is strictly prohibited in Blind coding. Allowed in CTF and UI/UX only for referencing.',
-      'Attacking competition servers in CTF is prohibited. Flags must be submitted in correct format.',
+      'Internet usage is strictly prohibited in Blind Coding.',
       'Judges\' decision will be final and binding across all competitions.',
     ],
     events: [
       { id: 'CSE1', title: 'UI/UX Redesigning', description: 'Redesign a given interface using Figma/Adobe XD within 2 hours.', image: '/events/ui ux.png', date: 'March 11 & 12, 2026', location: 'CSE Lab Block' },
       { id: 'CSE2', title: 'Blind Coding', description: 'Solve programming problems with the screen hidden.', image: '/events/Blind coding.png', date: 'March 11 & 12, 2026', location: 'CSE Lab Block' },
-      { id: 'CSE3', title: 'Capture The Flag', description: 'Intense cybersecurity battleground with various digital challenges.', image: '/events/capture the flag.png', date: 'March 11 & 12, 2026', location: 'CSE Lab Block' }
     ]
   },
   {
@@ -91,16 +84,14 @@ const DEPARTMENTS_RAW = [
     date: 'March 11 & 12, 2026', location: 'MCA Department Hall',
     rulebook: '/rulebook/Samveekshana_Events_Rules(CA).docx',
     rules: [
-      'Tech Rangoli: Individual. Rs 50/-. Create artistic designs based on current technology trends (1-2 hour limit).',
       'Pick and Speak: Individual. Rs 50/-. Extempore speaking on a random technical/general topic. 1 min prep, 2-4 mins speaking.',
       'Face Painting: Individual/Team of 2. Rs 50/-. Theme: Good vs Evil (Half-Face Concept).',
       'Judging criteria: Fluency, originality, creativity, and relevance to theme.',
       'Certificates for all participants and trophies for winners.',
     ],
     events: [
-      { id: 'BCA1', title: 'Tech Rangoli', description: 'Create stunning designs based on technology trends.', image: '/events/tech rangoli.png', date: 'March 11 & 12, 2026', location: 'MCA Department Hall' },
-      { id: 'BCA2', title: 'Pick and Speak', description: 'Extempore speaking on technical or general topics.', image: '/events/pick and speak.png', date: 'March 11 & 12, 2026', location: 'MCA Department Hall' },
-      { id: 'BCA3', title: 'Face Painting', description: 'Artistic expression centered on the theme of Good vs Evil.', image: '/events/face painting.png', date: 'March 11 & 12, 2026', location: 'MCA Department Hall' }
+      { id: 'BCA1', title: 'Pick and Speak', description: 'Extempore speaking on technical or general topics.', image: '/events/pick and speak.png', date: 'March 11 & 12, 2026', location: 'MCA Department Hall' },
+      { id: 'BCA2', title: 'Face Painting', description: 'Artistic expression centered on the theme of Good vs Evil.', image: '/events/face painting.png', date: 'March 11 & 12, 2026', location: 'MCA Department Hall' },
     ]
   },
   {
@@ -110,16 +101,13 @@ const DEPARTMENTS_RAW = [
     date: 'March 11 & 12, 2026', location: 'ECE Department Block',
     rulebook: '/rulebook/Samveekshana_Events_Rules 2k26 EC ......docx',
     rules: [
-      'Trash-2-Tech: Team of 2. Rs 100/-. Create a functional technological model using only scrap or E-waste materials.',
       'Technological Innovation Coding: Team of 2. Rs 100/-. Python programming. Rounds: MCQs, Debugging, Logic.',
       'Brand Arena +: Team of 3. Rs 100/-. Branding strategy, logo identification, and mystery box challenges.',
-      'Use of new electronic items is strictly prohibited in Trash-2-Tech.',
       'Top 3 positions rewarded with cash prizes and excellence certificates.',
     ],
     events: [
-      { id: 'ECE1', title: 'Trash-2-Tech', description: 'Create functional tech models from scrap and E-waste materials.', image: '/events/trash 2 tech .png', date: 'March 11 & 12, 2026', location: 'ECE Department Block' },
-      { id: 'ECE2', title: 'Tech Innovation Coding', description: 'Python programming challenge covering logic and debugging.', image: '/events/technological innovation coding.png', date: 'March 11 & 12, 2026', location: 'ECE Department Block' },
-      { id: 'ECE3', title: 'Brand Arena +', description: 'Marketing strategy and branding challenges for creative minds.', image: '/events/brand arena .png', date: 'March 11 & 12, 2026', location: 'ECE Department Block' }
+      { id: 'ECE1', title: 'Tech Innovation Coding', description: 'Python programming challenge covering logic and debugging.', image: '/events/technological innovation coding.png', date: 'March 11 & 12, 2026', location: 'ECE Department Block' },
+      { id: 'ECE2', title: 'Brand Arena +', description: 'Marketing strategy and branding challenges for creative minds.', image: '/events/brand arena .png', date: 'March 11 & 12, 2026', location: 'ECE Department Block' },
     ]
   },
   {
@@ -129,16 +117,15 @@ const DEPARTMENTS_RAW = [
     date: 'March 11 & 12, 2026', location: 'AI Lab, New Block',
     rulebook: '/rulebook/rules and regulations  for samveekshana event AIDS.docx',
     rules: [
-      'Valorant: 5-member team. Knockout tournament. LAN-based matches. Map selection by coin toss/ban system.',
-      'Tote Bag Painting: Creative expression on cotton bags provided by organizers (2-hour limit).',
-      'Valorant: No substitutes allowed during play.',
+      'Escape Room: Team of 2-4. Solve a series of puzzles and riddles within a time limit to escape.',
+      'Tote Bag Painting: Individual. Rs 150/-. Creative expression on cotton bags provided by organizers (2-hour limit).',
       'Tote Bag Painting: Designs must be original. Pre-sketching or stencils are prohibited.',
-      'Cheat hacks, scripting, or harassment result in immediate disqualification.',
+      'Cheat hacks or harassment result in immediate disqualification.',
       'Winners receive special trophies and participation certificates.',
     ],
     events: [
-      { id: 'AI1', title: 'Valorant', description: 'Highly competitive tactical shooter tournament.', image: '/events/valorant.png', date: 'March 11 & 12, 2026', location: 'AI Lab, New Block' },
-      { id: 'AI2', title: 'Tote Bag Painting', description: 'Design and showcase your artistic skills on cotton bags.', image: '/events/totebag painting.png', date: 'March 11 & 12, 2026', location: 'AI Lab, New Block' }
+      { id: 'AI1', title: 'Escape Room', description: 'Solve AI-themed puzzles and riddles to escape before time runs out.', image: '/events/escape room .png', date: 'March 11 & 12, 2026', location: 'AI Lab, New Block' },
+      { id: 'AI2', title: 'Tote Bag Painting', description: 'Design and showcase your artistic skills on cotton bags.', image: '/events/totebag painting.png', date: 'March 11 & 12, 2026', location: 'AI Lab, New Block' },
     ]
   },
   {
@@ -148,16 +135,14 @@ const DEPARTMENTS_RAW = [
     date: 'March 11 & 12, 2026', location: 'CSBS Seminar Hall',
     rulebook: '/rulebook/CSBS Samveekshana 2k26.docx',
     rules: [
-      'e-Game Football: Rs. 100/head. 1v1 knockout mode FIFA/FC matches. 10-minute halves.',
       'Roadies: Rs. 80/head. Multi-round event with endurance, mental challenges, and stress interviews.',
       'Pitch Tank: Team 1-4. Rs. 80/head. Startup pitching competition (4 rounds).',
       'Pitch Tank: Shark Tank style 5-minute pitch followed by 3 minutes of Investor Q&A.',
       'Evaluations based on innovation, feasibility, marketability, and endurance.',
     ],
     events: [
-      { id: 'CSBS1', title: 'e-Game Football', description: 'Competitive 1v1 football tournament on digital pitch.', image: '/events/escape room .png', date: 'March 11 & 12, 2026', location: 'CSBS Seminar Hall' },
-      { id: 'CSBS2', title: 'Roadies', description: 'Test your endurance and mental strength in multiple rounds.', image: '/events/roadies.png', date: 'March 11 & 12, 2026', location: 'CSBS Seminar Hall' },
-      { id: 'CSBS3', title: 'Pitch Tank', description: 'Startup pitching platform for future entrepreneurs.', image: '/events/pitch tank.png', date: 'March 11 & 12, 2026', location: 'CSBS Seminar Hall' }
+      { id: 'CSBS1', title: 'Roadies', description: 'Test your endurance and mental strength in multiple rounds.', image: '/events/roadies.png', date: 'March 11 & 12, 2026', location: 'CSBS Seminar Hall' },
+      { id: 'CSBS2', title: 'Pitch Tank', description: 'Startup pitching platform for future entrepreneurs.', image: '/events/pitch tank.png', date: 'March 11 & 12, 2026', location: 'CSBS Seminar Hall' },
     ]
   },
   {
@@ -168,7 +153,7 @@ const DEPARTMENTS_RAW = [
     rulebook: '/rulebook/BSH Events Rules and Regulations.docx',
     rules: [
       'BGMI: Squad of 4. Rs 200/team. TPP Mode, Classic Maps. Points based on official competitive placement and kills.',
-      'Musical Chair: Individual. Rs 50/-. High-energy elimination rounds for individual participants.',
+      'Bigboss: Reality-show style elimination challenge with tasks and audience voting.',
       'BGMI: Mobile devices only (No Emulators/iPads). Custom room credentials shared before start.',
       'Screenshots of match results are mandatory for point verification.',
       'Teaming with other squads or use of hacks leads to an immediate ban.',
@@ -176,7 +161,7 @@ const DEPARTMENTS_RAW = [
     ],
     events: [
       { id: 'BSH1', title: 'BGMI', description: 'Squad-based battle royale tournament for mobile gamers.', image: '/events/Bgmi.png', date: 'March 11 & 12, 2026', location: 'BSH Activity Hall' },
-      { id: 'BSH2', title: 'Musical Chair', description: 'Traditional exclusion game with high intensity.', image: '/events/musical chair.png', date: 'March 11 & 12, 2026', location: 'BSH Activity Hall' }
+      { id: 'BSH2', title: 'Bigboss', description: 'Reality-show style elimination challenge with tasks and audience voting.', image: '/events/musical chair.png', date: 'March 11 & 12, 2026', location: 'BSH Activity Hall' },
     ]
   },
 ];
@@ -195,28 +180,22 @@ const REGISTRATION_BASE_URL = process.env.NEXT_PUBLIC_REGISTRATION_URL || 'https
 const EVENT_REGISTRATION_META: Record<string, { slug: string; fee: string }> = {
   CV1: { slug: 'technical-quiz', fee: 'Rs. 50/- per team' },
   CV2: { slug: 'shut-the-box', fee: 'Rs. 50/- per participant' },
-  CV3: { slug: 'tambola', fee: 'Rs. 50/- per participant' },
   ME1: { slug: 'future-ride', fee: 'Rs. 100/- per team' },
   ME2: { slug: 'navapravartan', fee: 'Rs. 50/- per team' },
-  EEE1: { slug: 'slow-cycling', fee: 'Rs. 50/-' },
-  EEE2: { slug: 'techno-fusion', fee: 'Rs. 150/- per team' },
-  EEE3: { slug: 'innovate-to-elevate', fee: 'Rs. 100/- per team' },
+  EEE1: { slug: 'techno-fusion', fee: 'Rs. 150/- per team' },
+  EEE2: { slug: 'innovate-to-elevate', fee: 'Rs. 100/- per team' },
   CSE1: { slug: 'ui-ux-redesigning', fee: 'Rs. 50/- per participant' },
   CSE2: { slug: 'blind-coding', fee: 'Rs. 50/-' },
-  CSE3: { slug: 'capture-the-flag', fee: 'Rs. 200/- per team' },
-  BCA1: { slug: 'tech-rangoli', fee: 'Rs. 50/-' },
-  BCA2: { slug: 'pick-and-speak', fee: 'Rs. 50/-' },
-  BCA3: { slug: 'face-painting', fee: 'Rs. 50/-' },
-  ECE1: { slug: 'trash-2-tech', fee: 'Rs. 100/- per team' },
-  ECE2: { slug: 'technological-innovation-coding', fee: 'Rs. 100/- per team' },
-  ECE3: { slug: 'brand-arena-plus', fee: 'Rs. 150/- per team' },
-  AI1: { slug: 'valorant', fee: 'Rs. 500/- per team' },
+  BCA1: { slug: 'pick-and-speak', fee: 'Rs. 50/-' },
+  BCA2: { slug: 'face-painting', fee: 'Rs. 50/-' },
+  ECE1: { slug: 'technological-innovation-coding', fee: 'Rs. 100/- per team' },
+  ECE2: { slug: 'brand-arena-plus', fee: 'Rs. 150/- per team' },
+  AI1: { slug: 'escape-room', fee: 'Rs. 100/- per team' },
   AI2: { slug: 'tote-bag-painting', fee: 'Rs. 150/- per team' },
-  CSBS1: { slug: 'e-game-football', fee: 'Rs. 100/- per head' },
-  CSBS2: { slug: 'roadies', fee: 'Rs. 80/- per head' },
-  CSBS3: { slug: 'pitch-tank', fee: 'Rs. 80/- per head' },
+  CSBS1: { slug: 'roadies', fee: 'Rs. 80/- per head' },
+  CSBS2: { slug: 'pitch-tank', fee: 'Rs. 80/- per head' },
   BSH1: { slug: 'bgmi', fee: 'Rs. 200/- per team' },
-  BSH2: { slug: 'musical-chair', fee: 'Rs. 50/-' },
+  BSH2: { slug: 'bigboss', fee: 'Rs. 50/-' },
 };
 
 function getRegistrationMeta(event: { id: string; title: string }) {

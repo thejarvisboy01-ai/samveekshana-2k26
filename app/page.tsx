@@ -1,6 +1,7 @@
 'use client';
 
-import { useRef, useState, useCallback } from 'react';
+import { useRef, useState, useCallback, useEffect } from 'react';
+import Image from 'next/image';
 import { motion, useScroll, useSpring, useTransform } from 'motion/react';
 
 // Components
@@ -18,6 +19,16 @@ export default function Page() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = useState(true);
   const handleLoadComplete = useCallback(() => setIsLoading(false), []);
+  const [anyModalOpen, setAnyModalOpen] = useState(false);
+
+  // Watch body.style.overflow — all modals set it to 'hidden' when open
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      setAnyModalOpen(document.body.style.overflow === 'hidden');
+    });
+    observer.observe(document.body, { attributes: true, attributeFilter: ['style'] });
+    return () => observer.disconnect();
+  }, []);
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end end'],
@@ -47,6 +58,24 @@ export default function Page() {
     <>
       {isLoading && <Preloader onComplete={handleLoadComplete} />}
 
+      {/* Fixed top-left logo — hides when any modal is open */}
+      {!isLoading && (
+        <motion.div
+          className="fixed top-3 left-3 md:top-5 md:left-5 z-[9500] pointer-events-none select-none"
+          animate={{ opacity: anyModalOpen ? 0 : 1, scale: anyModalOpen ? 0.8 : 1 }}
+          transition={{ duration: 0.25, ease: 'easeInOut' }}
+        >
+          <Image
+            src="/logo.png"
+            alt="Samveekshana Logo"
+            width={50}
+            height={50}
+            className="w-10 h-10 md:w-16 md:h-16 object-contain drop-shadow-[0_0_16px_rgba(0,128,128,0.7)]"
+            priority
+          />
+        </motion.div>
+      )}
+
       {/* HeroSequence manages its own GSAP pin — lives outside the main scroll container */}
       <div className={isLoading ? 'overflow-hidden max-h-screen' : ''}>
         <HeroSequence />
@@ -65,7 +94,7 @@ export default function Page() {
         </div>
         <NoiseOverlay />
         <Background3D progress={smoothProgress} />
-        <CornerNavSections />
+        <CornerNavSections anyModalOpen={anyModalOpen} />
 
         {/* Remaining sequences in the sticky cinematic panel */}
         <div className="sticky top-0 left-0 w-full h-screen overflow-hidden" style={{ perspective: '1200px' }}>

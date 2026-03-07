@@ -299,9 +299,13 @@ function DevCard({ profile, index }: { profile: DevProfile; index: number }) {
   );
 }
 
-export default function CornerNavSections() {
+export default function CornerNavSections({ anyModalOpen = false }: { anyModalOpen?: boolean }) {
   const [panel, setPanel] = useState<PanelKey>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // An "external" modal is open when body overflow is hidden but NOT from our own panel/menu
+  const ownModalOpen = panel !== null || mobileMenuOpen;
+  const externalModalOpen = anyModalOpen && !ownModalOpen;
 
   const isOpen = panel !== null;
 
@@ -375,17 +379,21 @@ export default function CornerNavSections() {
         </button>
       </nav>
 
-      {/* ── MOBILE HAMBURGER BUTTON ───────────────────────────────────── */}
+      {/* ── MOBILE HAMBURGER BUTTON — hides when external modal is open ── */}
       <motion.button
         type="button"
         aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
         onClick={() => setMobileMenuOpen(v => !v)}
         className="md:hidden fixed right-4 top-4 z-[9000] flex h-11 w-11 flex-col items-center justify-center gap-[6px] rounded-full border border-[#008080]/50 bg-black/80 backdrop-blur-md shadow-[0_0_18px_rgba(0,128,128,0.25)]"
         whileTap={{ scale: 0.88 }}
-        animate={mobileMenuOpen
-          ? { borderColor: 'rgba(212,175,55,0.7)', boxShadow: '0 0 22px rgba(212,175,55,0.3)' }
-          : { borderColor: 'rgba(0,128,128,0.5)', boxShadow: '0 0 18px rgba(0,128,128,0.25)' }
+        animate={externalModalOpen
+          ? { opacity: 0, scale: 0.8, pointerEvents: 'none' as const }
+          : mobileMenuOpen
+            ? { opacity: 1, scale: 1, borderColor: 'rgba(212,175,55,0.7)', boxShadow: '0 0 22px rgba(212,175,55,0.3)' }
+            : { opacity: 1, scale: 1, borderColor: 'rgba(0,128,128,0.5)', boxShadow: '0 0 18px rgba(0,128,128,0.25)' }
         }
+        transition={{ duration: 0.25, ease: 'easeInOut' }}
+        style={{ pointerEvents: externalModalOpen ? 'none' : 'auto' }}
       >
         {/* Three morphing lines */}
         <motion.span
