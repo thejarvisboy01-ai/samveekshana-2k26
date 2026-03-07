@@ -191,7 +191,7 @@ const DEPARTMENTS = [...DEPARTMENTS_RAW].sort((a, b) => {
   return aIndex - bIndex;
 });
 
-const REGISTRATION_BASE_URL = process.env.NEXT_PUBLIC_REGISTRATION_URL || '/_public_html/index1.html';
+const REGISTRATION_BASE_URL = process.env.NEXT_PUBLIC_REGISTRATION_URL || 'https://register.samveekshana.tech/';
 const EVENT_REGISTRATION_META: Record<string, { slug: string; fee: string }> = {
   CV1: { slug: 'technical-quiz', fee: 'Rs. 50/- per team' },
   CV2: { slug: 'shut-the-box', fee: 'Rs. 50/- per participant' },
@@ -229,19 +229,12 @@ function getRegistrationMeta(event: { id: string; title: string }) {
 }
 
 function goToRegistration(event: { id: string; title: string }) {
-  try {
-    sessionStorage.setItem('registration_selected_event', event.id);
-  } catch {
-    // Ignore storage errors and continue navigation.
-  }
-  try {
-    const target = new URL(REGISTRATION_BASE_URL, window.location.origin);
-    target.searchParams.set('event', event.title);
-    window.location.href = target.toString();
-  } catch {
-    const separator = REGISTRATION_BASE_URL.includes('?') ? '&' : '?';
-    window.location.href = `${REGISTRATION_BASE_URL}${separator}event=${encodeURIComponent(event.title)}`;
-  }
+  const meta = getRegistrationMeta(event);
+  const target = new URL(REGISTRATION_BASE_URL);
+  target.searchParams.set('event', event.title);
+  target.searchParams.set('event_id', event.id);
+  target.searchParams.set('slug', meta.slug);
+  window.open(target.toString(), '_blank', 'noopener,noreferrer');
 }
 
 

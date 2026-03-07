@@ -132,22 +132,13 @@ const CENTRAL_EVENT_FEES: Record<string, string> = {
     TRG: 'Rs. 50/-',
     BBB: 'Rs. 100/- per team',
 };
-const REGISTRATION_BASE_URL = process.env.NEXT_PUBLIC_REGISTRATION_URL || '/_public_html/index1.html';
+const REGISTRATION_BASE_URL = process.env.NEXT_PUBLIC_REGISTRATION_URL || 'https://register.samveekshana.tech/';
 
 function goToCentralRegistration(event: { id: string; title: string }) {
-    try {
-        sessionStorage.setItem('registration_selected_event', event.id);
-    } catch {
-        // Ignore storage errors and continue navigation.
-    }
-    try {
-        const target = new URL(REGISTRATION_BASE_URL, window.location.origin);
-        target.searchParams.set('event', event.title);
-        window.location.href = target.toString();
-    } catch {
-        const separator = REGISTRATION_BASE_URL.includes('?') ? '&' : '?';
-        window.location.href = `${REGISTRATION_BASE_URL}${separator}event=${encodeURIComponent(event.title)}`;
-    }
+    const target = new URL(REGISTRATION_BASE_URL);
+    target.searchParams.set('event', event.title);
+    target.searchParams.set('event_id', event.id);
+    window.open(target.toString(), '_blank', 'noopener,noreferrer');
 }
 
 /* ΓöÇΓöÇ Animated hex grid background cell ΓöÇΓöÇ */

@@ -40,44 +40,96 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
     const [fallingCards, setFallingCards] = useState<{ id: number; cardIndex: number }[]>([]);
     const nextIdRef = useRef(0);
     const lastCardIndexRef = useRef(-1);
+    const isExitingRef = useRef(false);
 
-    // Asset loading logic
+    // ── Continuous card loop (runs independently of progress) ──────────────
     useEffect(() => {
-        let loadedCount = 0;
-        const totalAssets = ASSETS_TO_PRELOAD.length;
+        const addCard = () => {
+            if (isExitingRef.current) return;
+            const id = nextIdRef.current++;
+            const cardIndex = (lastCardIndexRef.current + 1) % LOADER_CARDS.length;
+            lastCardIndexRef.current = cardIndex;
 
-        const updateProgress = () => {
+            setFallingCards(prev => {
+                // Keep at most 12 cards in the deck to avoid memory bloat
+                const trimmed = prev.length >= 12 ? prev.slice(1) : prev;
+                return [...trimmed, { id, cardIndex }];
+            });
+        };
+
+        // Seed with first 3 cards immediately
+        for (let i = 0; i < 3; i++) addCard();
+
+        // Then add one every 600 ms — keeps the animation alive the whole time
+        const interval = setInterval(addCard, 600);
+        return () => clearInterval(interval);
+    }, []);
+
+    // ── Real asset loading ─────────────────────────────────────────────────
+    useEffect(() => {
+        const MAX_MS = 60_000; // 60-second hard cap
+        let settled = false;
+
+        const finish = () => {
+            if (settled) return;
+            settled = true;
+            // Animate to 100 % smoothly then exit
+            setLoadProgress(100);
+        };
+
+        // Hard cap timeout
+        const capTimer = setTimeout(finish, MAX_MS);
+
+        // Track individual image loads
+        let loadedCount = 0;
+        const total = ASSETS_TO_PRELOAD.length;
+
+        const onAsset = () => {
             loadedCount++;
-            const progress = (loadedCount / totalAssets) * 100;
-            // We only map actual asset load to the first 80% of our bar
-            // to allow some "system check" time at the end
-            setLoadProgress(prev => Math.max(prev, progress * 0.8));
+            const raw = loadedCount / total;
+            // Map real load progress to 0–85 %; the last 15 % are filled after document ready
+            setLoadProgress(prev => Math.max(prev, Math.round(raw * 85)));
+            if (loadedCount >= total) checkReady();
         };
 
         ASSETS_TO_PRELOAD.forEach(src => {
             const img = new Image();
+            img.onload = onAsset;
+            img.onerror = onAsset; // errors count as done
             img.src = src;
-            img.onload = updateProgress;
-            img.onerror = updateProgress; // Count errors as "done" to avoid hanging
         });
 
-        // Fail-safe: transition to 100% after 8 seconds anyway
-        const timeout = setTimeout(() => {
-            setLoadProgress(100);
-        }, 8000);
+        // After images, wait for document to be fully interactive
+        const checkReady = () => {
+            if (document.readyState === 'complete') {
+                // Give the browser one more frame to paint, then wrap up
+                requestAnimationFrame(() => {
+                    setLoadProgress(prev => Math.max(prev, 90));
+                    setTimeout(finish, 500);
+                });
+            } else {
+                const handler = () => {
+                    if (document.readyState === 'complete') {
+                        document.removeEventListener('readystatechange', handler);
+                        requestAnimationFrame(() => {
+                            setLoadProgress(prev => Math.max(prev, 90));
+                            setTimeout(finish, 500);
+                        });
+                    }
+                };
+                document.addEventListener('readystatechange', handler);
+            }
+        };
 
-        return () => clearTimeout(timeout);
+        return () => clearTimeout(capTimer);
     }, []);
 
-    // Smoothly interpolate progress to 100% once assets are done (80%+)
+    // ── Smoothly fill remaining 10–100 % once loadProgress hits 90 ─────────
     useEffect(() => {
-        if (loadProgress >= 80 && loadProgress < 100) {
+        if (loadProgress >= 90 && loadProgress < 100) {
             const interval = setInterval(() => {
                 setLoadProgress(prev => {
-                    if (prev >= 100) {
-                        clearInterval(interval);
-                        return 100;
-                    }
+                    if (prev >= 100) { clearInterval(interval); return 100; }
                     return prev + 1;
                 });
             }, 30);
@@ -85,30 +137,10 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
         }
     }, [loadProgress]);
 
-    // Card stacking logic — link number of cards to progress until 80%
-    useEffect(() => {
-        if (isExiting) return;
-
-        // Up to 80% progress, we want to have most of the cards stacked
-        // Let's say we want all LOADER_CARDS to be stacked by the time we hit 80%
-        const targetCardCount = Math.floor((Math.min(loadProgress, 80) / 80) * LOADER_CARDS.length);
-
-        if (fallingCards.length < targetCardCount) {
-            const cardsToAdd = targetCardCount - fallingCards.length;
-            const newCards: { id: number; cardIndex: number }[] = [];
-            for (let i = 0; i < cardsToAdd; i++) {
-                const id = nextIdRef.current++;
-                const cardIndex = (lastCardIndexRef.current + 1) % LOADER_CARDS.length;
-                lastCardIndexRef.current = cardIndex;
-                newCards.push({ id, cardIndex });
-            }
-            setFallingCards(prev => [...prev, ...newCards]);
-        }
-    }, [loadProgress, isExiting, fallingCards.length]);
-
-    // Exit logic
+    // ── Exit when 100 % ────────────────────────────────────────────────────
     useEffect(() => {
         if (loadProgress >= 100 && !isExiting) {
+            isExitingRef.current = true;
             setIsExiting(true);
             setTimeout(() => {
                 setIsVisible(false);
@@ -116,6 +148,7 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
             }, 800);
         }
     }, [loadProgress, isExiting, onComplete]);
+
 
     return (
         <AnimatePresence>

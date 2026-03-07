@@ -30,7 +30,7 @@ type DevProfile = {
   };
 };
 
-const REGISTER_URL = '/_public_html/index1.html';
+const REGISTER_URL = process.env.NEXT_PUBLIC_REGISTRATION_URL || 'https://register.samveekshana.tech/';
 
 const DEVELOPERS: DevProfile[] = [
   {
@@ -301,11 +301,12 @@ function DevCard({ profile, index }: { profile: DevProfile; index: number }) {
 
 export default function CornerNavSections() {
   const [panel, setPanel] = useState<PanelKey>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const isOpen = panel !== null;
 
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen || mobileMenuOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
@@ -313,17 +314,41 @@ export default function CornerNavSections() {
     return () => {
       document.body.style.overflow = 'unset';
     };
-  }, [isOpen]);
+  }, [isOpen, mobileMenuOpen]);
+
+  const closeMobile = () => setMobileMenuOpen(false);
+
+  const mobileLinks = [
+    {
+      label: 'Register Now',
+      href: REGISTER_URL,
+      accent: '#d9b44a',
+      icon: <Rocket size={18} />,
+      isExternal: true,
+    },
+    {
+      label: 'Developers',
+      accent: '#00d4c3',
+      icon: <Users size={18} />,
+      onClick: () => { closeMobile(); setTimeout(() => setPanel('developers'), 200); },
+    },
+    {
+      label: 'About',
+      accent: '#00d4c3',
+      icon: <Info size={18} />,
+      onClick: () => { closeMobile(); setTimeout(() => setPanel('about'), 200); },
+    },
+  ];
 
   return (
     <>
-      {/* TOP LEFT BRANDING REMOVED AS PER USER REQUEST */}
-
-
-      <nav className="fixed right-3 top-3 z-[140] flex flex-col gap-2 md:right-6 md:top-6" aria-label="Quick navigation">
+      {/* ── DESKTOP NAV (hidden on mobile) ───────────────────────────── */}
+      <nav className="hidden md:flex fixed right-6 top-6 z-[140] flex-col gap-2" aria-label="Quick navigation">
         <a
           href={REGISTER_URL}
-          className="group relative overflow-hidden rounded-full border border-[#d9b44a]/50 bg-black/70 px-3 py-2 text-[9px] font-mono uppercase tracking-[0.2em] text-[#fff3c4] backdrop-blur-md transition hover:border-[#d9b44a] md:px-4 md:text-[10px] md:tracking-[0.25em]"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group relative overflow-hidden rounded-full border border-[#d9b44a]/50 bg-black/70 px-4 py-2 text-[10px] font-mono uppercase tracking-[0.25em] text-[#fff3c4] backdrop-blur-md transition hover:border-[#d9b44a]"
         >
           <motion.span
             className="pointer-events-none absolute inset-y-0 left-[-40%] w-[35%] bg-gradient-to-r from-transparent via-[#d9b44a]/30 to-transparent"
@@ -336,7 +361,7 @@ export default function CornerNavSections() {
         <button
           type="button"
           onClick={() => setPanel('developers')}
-          className="rounded-full border border-[#00d4c3]/45 bg-black/70 px-3 py-2 text-[9px] font-mono uppercase tracking-[0.2em] text-[#b6fff7] backdrop-blur-md transition hover:border-[#00d4c3] md:px-4 md:text-[10px] md:tracking-[0.25em]"
+          className="rounded-full border border-[#00d4c3]/45 bg-black/70 px-4 py-2 text-[10px] font-mono uppercase tracking-[0.25em] text-[#b6fff7] backdrop-blur-md transition hover:border-[#00d4c3]"
         >
           <span className="inline-flex items-center gap-2"><Users size={12} /> Developers</span>
         </button>
@@ -344,11 +369,214 @@ export default function CornerNavSections() {
         <button
           type="button"
           onClick={() => setPanel('about')}
-          className="rounded-full border border-[#00d4c3]/45 bg-black/70 px-3 py-2 text-[9px] font-mono uppercase tracking-[0.2em] text-[#b6fff7] backdrop-blur-md transition hover:border-[#00d4c3] md:px-4 md:text-[10px] md:tracking-[0.25em]"
+          className="rounded-full border border-[#00d4c3]/45 bg-black/70 px-4 py-2 text-[10px] font-mono uppercase tracking-[0.25em] text-[#b6fff7] backdrop-blur-md transition hover:border-[#00d4c3]"
         >
           <span className="inline-flex items-center gap-2"><Info size={12} /> About</span>
         </button>
       </nav>
+
+      {/* ── MOBILE HAMBURGER BUTTON ───────────────────────────────────── */}
+      <motion.button
+        type="button"
+        aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+        onClick={() => setMobileMenuOpen(v => !v)}
+        className="md:hidden fixed right-4 top-4 z-[9000] flex h-11 w-11 flex-col items-center justify-center gap-[6px] rounded-full border border-[#008080]/50 bg-black/80 backdrop-blur-md shadow-[0_0_18px_rgba(0,128,128,0.25)]"
+        whileTap={{ scale: 0.88 }}
+        animate={mobileMenuOpen
+          ? { borderColor: 'rgba(212,175,55,0.7)', boxShadow: '0 0 22px rgba(212,175,55,0.3)' }
+          : { borderColor: 'rgba(0,128,128,0.5)', boxShadow: '0 0 18px rgba(0,128,128,0.25)' }
+        }
+      >
+        {/* Three morphing lines */}
+        <motion.span
+          className="block h-[2px] w-5 rounded-full bg-[#00d4c3] origin-center"
+          animate={mobileMenuOpen
+            ? { rotate: 45, y: 8, backgroundColor: '#d9b44a' }
+            : { rotate: 0, y: 0, backgroundColor: '#00d4c3' }
+          }
+          transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+        />
+        <motion.span
+          className="block h-[2px] w-5 rounded-full bg-[#00d4c3] origin-center"
+          animate={mobileMenuOpen
+            ? { opacity: 0, scaleX: 0 }
+            : { opacity: 1, scaleX: 1 }
+          }
+          transition={{ duration: 0.2 }}
+        />
+        <motion.span
+          className="block h-[2px] w-5 rounded-full bg-[#00d4c3] origin-center"
+          animate={mobileMenuOpen
+            ? { rotate: -45, y: -8, backgroundColor: '#d9b44a' }
+            : { rotate: 0, y: 0, backgroundColor: '#00d4c3' }
+          }
+          transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+        />
+      </motion.button>
+
+      {/* ── MOBILE MENU OVERLAY ───────────────────────────────────────── */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            className="md:hidden fixed inset-0 z-[8000] flex flex-col"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+          >
+            {/* Backdrop */}
+            <div
+              className="absolute inset-0 bg-[#020405]/97 backdrop-blur-xl"
+              onClick={closeMobile}
+            />
+
+            {/* Scanlines overlay */}
+            <div
+              className="absolute inset-0 pointer-events-none opacity-[0.03]"
+              style={{
+                backgroundImage: 'repeating-linear-gradient(0deg, #00FFFF 0px, #00FFFF 1px, transparent 1px, transparent 3px)',
+              }}
+            />
+
+            {/* Grid dots */}
+            <div
+              className="absolute inset-0 pointer-events-none opacity-[0.04]"
+              style={{
+                backgroundImage: 'radial-gradient(#008080 1px, transparent 1px)',
+                backgroundSize: '28px 28px',
+              }}
+            />
+
+            {/* Moving scan line */}
+            <motion.div
+              className="absolute inset-x-0 h-px bg-[#00d4c3]/20 pointer-events-none"
+              animate={{ top: ['0%', '100%'] }}
+              transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
+              style={{ boxShadow: '0 0 10px #00d4c3' }}
+            />
+
+            {/* Corner decorations */}
+            <div className="absolute top-5 left-5 w-8 h-8 border-t-2 border-l-2 border-[#008080]/40 pointer-events-none" />
+            <div className="absolute top-5 right-20 w-8 h-8 border-t-2 border-r-2 border-[#008080]/40 pointer-events-none" />
+            <div className="absolute bottom-10 left-5 w-8 h-8 border-b-2 border-l-2 border-[#d9b44a]/30 pointer-events-none" />
+            <div className="absolute bottom-10 right-5 w-8 h-8 border-b-2 border-r-2 border-[#d9b44a]/30 pointer-events-none" />
+
+            {/* Content */}
+            <div className="relative z-10 flex flex-col h-full px-6 pt-24 pb-16 justify-between">
+
+              {/* Header tag */}
+              <motion.div
+                className="mb-10"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.05, duration: 0.4 }}
+              >
+                <div className="text-[9px] font-mono tracking-[0.5em] text-[#008080]/50 uppercase mb-1">Navigation Matrix</div>
+                <div className="h-px w-12 bg-gradient-to-r from-[#008080] to-transparent" />
+              </motion.div>
+
+              {/* NAV ITEMS */}
+              <div className="flex-1 flex flex-col justify-center gap-5">
+                {mobileLinks.map((item, i) => (
+                  <motion.div
+                    key={item.label}
+                    initial={{ opacity: 0, x: -40, filter: 'blur(6px)' }}
+                    animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+                    exit={{ opacity: 0, x: -20 }}
+                    transition={{ delay: 0.08 + i * 0.1, duration: 0.4, ease: 'easeOut' }}
+                  >
+                    {item.href ? (
+                      <a
+                        href={item.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={closeMobile}
+                        className="group flex items-center gap-4 w-full py-4 px-5 relative overflow-hidden"
+                        style={{ border: `1px solid ${item.accent}25`, borderRadius: '2px' }}
+                      >
+                        {/* shimmer sweep */}
+                        <motion.div
+                          className="absolute inset-0 pointer-events-none"
+                          style={{ background: `linear-gradient(90deg, transparent, ${item.accent}15, transparent)` }}
+                          animate={{ x: ['-100%', '100%'] }}
+                          transition={{ duration: 2, repeat: Infinity, ease: 'linear', repeatDelay: 1.5 }}
+                        />
+                        {/* left accent bar */}
+                        <div className="absolute left-0 top-0 bottom-0 w-[3px] rounded-l" style={{ background: `linear-gradient(180deg, transparent, ${item.accent}, transparent)` }} />
+                        {/* number */}
+                        <div className="text-[11px] font-mono shrink-0" style={{ color: `${item.accent}60` }}>
+                          {String(i + 1).padStart(2, '0')}
+                        </div>
+                        {/* icon */}
+                        <div style={{ color: item.accent }}>{item.icon}</div>
+                        {/* label */}
+                        <span
+                          className="text-[15px] font-mono font-bold uppercase tracking-[0.2em] text-[#FFF8DC] group-hover:text-white transition-colors"
+                        >
+                          {item.label}
+                        </span>
+                        {/* arrow */}
+                        <motion.div
+                          className="ml-auto text-[10px] font-mono"
+                          style={{ color: `${item.accent}70` }}
+                          animate={{ x: [0, 4, 0] }}
+                          transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+                        >
+                          →
+                        </motion.div>
+                      </a>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={item.onClick}
+                        className="group flex items-center gap-4 w-full py-4 px-5 relative overflow-hidden text-left"
+                        style={{ border: `1px solid ${item.accent}25`, borderRadius: '2px' }}
+                      >
+                        <motion.div
+                          className="absolute inset-0 pointer-events-none"
+                          style={{ background: `linear-gradient(90deg, transparent, ${item.accent}15, transparent)` }}
+                          animate={{ x: ['-100%', '100%'] }}
+                          transition={{ duration: 2, repeat: Infinity, ease: 'linear', repeatDelay: 1.5 + i * 0.3 }}
+                        />
+                        <div className="absolute left-0 top-0 bottom-0 w-[3px] rounded-l" style={{ background: `linear-gradient(180deg, transparent, ${item.accent}, transparent)` }} />
+                        <div className="text-[11px] font-mono shrink-0" style={{ color: `${item.accent}60` }}>
+                          {String(i + 1).padStart(2, '0')}
+                        </div>
+                        <div style={{ color: item.accent }}>{item.icon}</div>
+                        <span className="text-[15px] font-mono font-bold uppercase tracking-[0.2em] text-[#FFF8DC] group-hover:text-white transition-colors">
+                          {item.label}
+                        </span>
+                        <motion.div
+                          className="ml-auto text-[10px] font-mono"
+                          style={{ color: `${item.accent}70` }}
+                          animate={{ x: [0, 4, 0] }}
+                          transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+                        >
+                          →
+                        </motion.div>
+                      </button>
+                    )}
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Footer tag */}
+              <motion.div
+                className="text-center"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.4, duration: 0.5 }}
+              >
+                <div className="flex items-center justify-center gap-3 text-[8px] font-mono text-[#008080]/30 uppercase tracking-[0.4em]">
+                  <motion.div className="w-1 h-1 rounded-full bg-green-500" animate={{ opacity: [0.3, 1, 0.3] }} transition={{ duration: 1.5, repeat: Infinity }} />
+                  SAMVEEKSHANA 2026
+                  <motion.div className="w-1 h-1 rounded-full bg-[#d9b44a]" animate={{ opacity: [0.3, 1, 0.3] }} transition={{ duration: 1.8, repeat: Infinity }} />
+                </div>
+              </motion.div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <AnimatePresence>
         {isOpen && (
