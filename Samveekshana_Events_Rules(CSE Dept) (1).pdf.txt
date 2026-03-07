@@ -1,0 +1,159 @@
+ 
+S. S. Education Trust’s CET Code: E-175 (UG)/T-942 
+(PG) 
+S. G. BALEKUNDRI INSTITUTE OF TECHNOLOGY 
+Shivabasavanagar, Belagavi- 590 010, Karnataka- India 
+Office: 0831-2407172, 2554559 Fax: 0831-2407152 Website: www.sgbit.edu.in 
+1SO 21001:2018 
+certified institute 
+Department of Computer Science & Engineering (Accredited by NBA) 
+Email: hod-cs@sgbit.edu.in, Dept. Extn.: 532 
+ 
+RULES OF THE EVENTS FOR SAMVEEKSHANA-2K26 
+ 
+EVENT NAME: UI/UX Redesigning 
+Faculty Coordinators: 
+Prof. Kshitij Sheth(8369962936) 
+Prof. Sushiladevi Vantamuri(7676309432) 
+Student Coordinators: 
+1. Aman Mali(6364623301) 
+2. Brahmi Chougala(7676072737) 
+ 
+Rules: 
+Team Size: 
+Individual. 
+Registration Fees: 
+Rs. 50/- (per participant) 
+UI/UX Redesigning – Rules and Regulations: 
+1. Participation 
+ Participants can compete individually. 
+ Only registered participants are allowed to participate. 
+2. Theme 
+ Participants must redesign a given website/app interface (theme will be provided on the spot).  
+ Example domains: E-commerce, Healthcare, Education, Banking, Travel, etc. 
+ The redesign must improve user experience, usability, and visual appeal. 
+3. Tools Allowed 
+ Participants may use design tools such as Figma, Adobe XD, Canva, Sketch, etc.  
+ Internet usage is allowed only for icons, images, or references. 
+ Pre-designed templates are not allowed. 
+4. Time Limit 
+ The competition duration will be 2  hours. 
+ Participants must submit their final design within the allotted time. 
+ 
+ 
+
+5. Design Requirements 
+ The design must include at least 2–3 screens (e.g., Login, Home, Dashboard). 
+ Focus on layout, typography, color scheme, navigation, and accessibility. 
+ The design must be original. 
+6. Submission 
+ Final design must be submitted in PDF/Image format or shared link (as instructed). 
+ Late submissions will not be considered. 
+7. Judging Criteria 
+ Creativity and originality 
+ User-centered design approach 
+ Visual hierarchy and layout 
+ Ease of navigation 
+ Innovation and presentation 
+8. Discipline 
+ Any malpractice or copying will lead to disqualification. 
+ Judges’ decision will be final and binding. 
+ 
+EVENT NAME: Blind Coding 
+Faculty Coordinators: 
+Prof. Shivanand Hiremath(9945810992) 
+Prof. Rajeshwari Kisan(9738783026) 
+Student Coordinators: 
+1. Suyog Hanamar(9986821707) 
+2. Pratiksha Tupare(8197422632) 
+Rules:  
+Team Size:  
+Individual. 
+Registration Fees: 
+Rs. 50/- 
+Blind Coding – Rules and Regulations: 
+1. Participation 
+ Only individual participation is allowed. 
+ Only registered participants can compete. 
+2. Competition Format 
+ Participants will be given a programming problem. 
+ The twist: The screen output will be hidden after initial viewing of the problem statement. 
+ No auto-suggestions or internet access is allowed. 
+3. Languages Allowed 
+ C / C++ / Java / Python (as specified by organizers). 
+4. Time Limit 
+ Total duration: 4 hours in two Rounds . 
+ Participants must complete coding within the allotted time. 
+5. Rules during Coding 
+ Internet access is strictly prohibited. 
+ Mobile phones are not allowed. 
+ Participants cannot refer to notes or books. 
+6. Evaluation Criteria 
+ Logical correctness 
+ Code efficiency 
+ Error-free execution 
+ Time taken to complete 
+ Optimization approach 
+7. Disqualification 
+ Use of unfair means. 
+ Communicating with others. 
+ Accessing unauthorized resources. 
+8. Decision 
+ Judges’ decision will be final and binding. 
+ 
+ 
+EVENT NAME: Capture The Flag (CTF) 
+Faculty Coordinators: 
+Prof. Basawraj Kumbar (9980156061) 
+Prof.  Laxmi Hosamani (8431775493) 
+Student Coordinators: 
+1. Shaheed Dafedar (7846084283) 
+2. Nandini Choukashi (9036067876) 
+Rules: 
+Team Size: 
+Team of 5 members. 
+Registration Fees: 
+Rs. 200/- (per team) 
+Capture The Flag – Rules and Regulations: 
+1. Participation 
+ Only registered teams are allowed. 
+ Each team must have a unique team name. 
+2. Competition Format 
+ Participants will solve cybersecurity-based challenges. 
+ Categories may include: 
+o Web Security 
+o Cryptography 
+o Reverse Engineering 
+o Forensics 
+o Networking 
+o Steganography 
+3. Flag Submission 
+ Each challenge contains a hidden “flag”. 
+ Teams must submit the correct flag in the required format. 
+ Points will be awarded based on difficulty level. 
+4. Time Limit 
+ Total duration: 2–3 hours. 
+ Team with highest points at the end wins. 
+5. Rules and Restrictions 
+ Attacking the competition server is strictly prohibited. 
+ Do not attack other teams. 
+ Brute-force attacks on the platform are not allowed unless specified. 
+ Internet access is allowed only for research purposes. 
+6. Required Setup 
+ Participants must carry smartphones 
+ Observed as On-ground activity.  
+7. Judging Criteria 
+ Number of flags captured 
+ Time taken 
+ Strategy and teamwork 
+8. Disqualification 
+ Malicious activity or server tampering. 
+ Sharing flags with other teams. 
+ Any unethical behavior. 
+9. Decision 
+ Judges’ decision will be final and binding.  
+ 
+ 
+ 
+Dept Coordinator         HOD 
+Dr. Sanjeev Kulkarni 

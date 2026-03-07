@@ -1,0 +1,150 @@
+﻿'use client';
+
+import { useState, useEffect } from 'react';
+import { motion, MotionValue, useTransform, AnimatePresence, useSpring } from 'motion/react';
+import Image from 'next/image';
+import { X } from 'lucide-react';
+
+const EVENTS = [
+  {
+    id: 'CV', title: 'CIVIL', subtitle: 'Department of Civil Engineering',
+    color: 'from-[#8B7355] to-[#5C4827]',
+    description: 'Building the future from the ground up. Civil Engineering events that test structural thinking, design acumen, and engineering precision.',
+    date: 'March 11 & 12, 2026', location: 'CV Department Block',
+    rules: [
+      'Technical Quiz: Individual participation only',
+      'Shut the Box: Board game strategy event, pairs allowed',
+      'All entries must register at the department desk before 9 AM',
+      'Judges\u2019 decision is final in all events',
+      'Participants must carry valid college ID',
+      'Win prizes available for top 3 positions',
+    ]
+  },
+  {
+    id: 'ME', title: 'MECH', subtitle: 'Department of Mechanical Engineering',
+    color: 'from-[#708090] to-[#4A5568]',
+    description: 'Where machines meet imagination. Mechanical Engineering brings cutting-edge design and innovation challenges to the forefront of Samveekshana.',
+    date: 'March 11 & 12, 2026', location: 'ME Department Block',
+    rules: [
+      'Future Ride: Design & build a futuristic vehicle model',
+      'Navapravartan: Innovation showcase event',
+      'Teams of 2Î“Ã‡Ã´4 members for build events',
+      'Materials must be sourced from within the fest premises',
+      'Prototype must be functional for demonstration',
+      'Win prizes for top 3 teams',
+    ]
+  },
+  {
+    id: 'EEE', title: 'ELECTRIC', subtitle: 'Dept. of Electrical & Electronics',
+    color: 'from-[#DAA520] to-[#8B6508]',
+    description: 'Powering innovation through circuits and systems. EEE events challenge participants with real-world electrical engineering problems.',
+    date: 'March 11 & 12, 2026', location: 'EEE Department Block',
+    rules: [
+      'Innovate to Elevate: Project demonstration event',
+      'Techno Fusion: Cross-domain technical challenge',
+      'Solo or duo participation allowed',
+      'Circuit designs must be original and submitted beforehand',
+      'Safety norms as per IEEE guidelines must be followed',
+      'Win prizes for top 3 entries',
+    ]
+  },
+  {
+    id: 'CSE', title: 'COMPUTE', subtitle: 'Dept. of Computer Science & Engg.',
+    color: 'from-[#008080] to-[#004d40]',
+    description: 'Code. Debug. Conquer. CSE events challenge your programming skills, UX thinking, and problem-solving under pressure.',
+    date: 'March 11 & 12, 2026', location: 'CSE Lab Block',
+    rules: [
+      'Blind Coding: Code without seeing the problem statement initially',
+      'UI/UX Redesign: Redesign a given app interface in limited time',
+      'Individual participation for all events',
+      'Judging based on logic, efficiency, and design aesthetics',
+      'Use of internet is not permitted during Blind Coding',
+      'Top 3 winners receive cash prizes',
+    ]
+  },
+  {
+    id: 'BCA', title: 'BCA / MCA', subtitle: 'Bachelor & Master of Computer Apps',
+    color: 'from-[#6A0DAD] to-[#3D0066]',
+    description: 'Where creativity meets technology. BCA/MCA events blend artistic expression with technical skill in a vibrant challenge.',
+    date: 'March 11 & 12, 2026', location: 'MCA Department Hall',
+    rules: [
+      'Face Painting: Artistic face painting competition',
+      'Pick and Speak: Extempore speaking on a random topic',
+      'Individual participation only',
+      'Face Painting materials will be provided by organisers',
+      'Pick and Speak: 2 minutes preparation, 3 minutes speaking',
+      'Judging on creativity, fluency, and originality',
+    ]
+  },
+  {
+    id: 'ECE', title: 'ELECTRON', subtitle: 'Dept. of Electronics & Comm. Engg.',
+    color: 'from-[#006994] to-[#003d5c]',
+    description: 'Signals, circuits, and smart systems. ECE events push participants to apply electronics knowledge to real-world competitive scenarios.',
+    date: 'March 11 & 12, 2026', location: 'ECE Department Block',
+    rules: [
+      'Brand Arena: Marketing and branding strategy event',
+      'Technological Innovation Coding: Build-a-solution hackathon',
+      'Teams of 2Î“Ã‡Ã´3 for Brand Arena; solo for Coding',
+      'Brand Arena judged on strategy, presentation, and innovation',
+      'Coding event: use of standard libraries permitted',
+      'Top 3 positions rewarded with certificates and prizes',
+    ]
+  },
+  {
+    id: 'AI', title: 'AI & DS', subtitle: 'Dept. of AI & Data Science',
+    color: 'from-[#00b4d8] to-[#0077b6]',
+    description: 'Intelligence redefined. AI & DS events explore the frontier of machine learning, data analysis, and intelligent system design.',
+    date: 'March 11 & 12, 2026', location: 'AI Lab, New Block',
+    rules: [
+      'Escape Room: Solve AI/tech-themed puzzles to escape',
+      'Totebag Painting: Creative expression on canvas',
+      'Escape Room: Teams of 3Î“Ã‡Ã´5, time-based scoring',
+      'Totebag Painting: Individual, materials provided',
+      'Escape Room clues are logic and tech-themed',
+      'All winners receive certificates and prizes',
+    ]
+  },
+  {
+    id: 'CSBS', title: 'CSBS', subtitle: 'Computer Science & Business Systems',
+    color: 'from-[#2ecc71] to-[#1a7a44]',
+    description: 'Where tech meets business acumen. CSBS events test entrepreneurial thinking, pitching skills, and competitive spirit.',
+    date: 'March 11 & 12, 2026', location: 'CSBS Seminar Hall',
+    rules: [
+      'Pitch Tank: Present your startup idea to a panel of judges',
+      'Roadies: Competitive fun challenge event',
+      'Pitch Tank: Teams of 2Î“Ã‡Ã´4 members',
+      'Business plan summary must be submitted before the event',
+      'Roadies: Individual participation, multi-round elimination',
+      'Top pitches and Roadies winners receive prizes',
+    ]
+  },
+  {
+    id: 'BSH', title: 'BSH', subtitle: 'Basic Sciences & Humanities',
+    color: 'from-[#c0392b] to-[#7b241c]',
+    description: 'Gaming, grit, and glory. BSH brings the competitive energy of mobile gaming and reality-show style challenges to Samveekshana.',
+    date: 'March 11 & 12, 2026', location: 'BSH Activity Hall',
+    rules: [
+      'BGMI: Battle Royale mobile gaming tournament',
+      'Bigboss: Reality-show style group elimination event',
+      'BGMI: Squad of 4, bring your own devices',
+      'Bigboss: Individual entry, tasks assigned on-spot',
+      'Anti-cheat measures strictly enforced in BGMI',
+      'Top 3 squads and Bigboss winner rewarded',
+    ]
+  },
+];
+
+export default function EventsSequence({ progress }: { progress: MotionValue<number> }) {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [rulebookEvent, setRulebookEvent] = useState<typeof EVENTS[number] | null>(null);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const isDeck = activeIndex !== null;
+
+  // 0.48 to 0.70
+  const opacity = useTransform(progress, [0.48, 0.51, 0.68, 0.70], [0, 1, 1, 0]);
+  const pointerEvents = useTransform(progress, [0.48, 0.51, 0.68, 0.70], ['none', 'auto', 'auto', 'none']);
+
+  // Rotate the entire carousel based on scroll
+  const scrollRotateY = useTransform(progress, [0.48, 0.70], [0, -360]);
+  const smoothRotateY = useSpring(0, { stiffness: 100, damping: 20 });
+  const [cardActiveAngle, setCardActiveAngle] = useState(0);
