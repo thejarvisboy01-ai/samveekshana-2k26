@@ -16,6 +16,11 @@ export default function HeroSequence() {
   const eraFillRef = useRef<HTMLDivElement>(null);
   const particleRef = useRef<HTMLCanvasElement>(null);
 
+  // Always start from the very top
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, []);
+
   useEffect(() => {
     const section = sectionRef.current!;
     const hero = heroRef.current!;
@@ -152,24 +157,19 @@ export default function HeroSequence() {
         .to('.h-scroll', { opacity: 1, duration: 0.4 }, '-=0.2')
         .to('#h-era', { opacity: 1, duration: 0.4 }, '-=0.3');
 
-      // Pin + scrub frames
+      // Pin + scrub frames — slow, cinematic, no snapping
       ScrollTrigger.create({
         trigger: section,
         start: 'top top',
         end: 'bottom bottom',
         pin: hero,
-        scrub: 1.5,
-        snap: {
-          snapTo: 1 / (FRAME_COUNT - 1),
-          duration: { min: 0.1, max: 0.3 },
-          delay: 0,
-          ease: 'power1.inOut',
-        },
+        scrub: 3,          // higher = slower, more butter
+        anticipatePin: 1,
         onUpdate: (self) => {
           const p = self.progress;
           drawFrame(p);
           updateOverlay(p);
-          scrollSpeed = Math.min(Math.abs(self.getVelocity() / 500), 3);
+          scrollSpeed = Math.min(Math.abs(self.getVelocity() / 800), 2);
 
           if (eraFill) eraFill.style.height = `${p * 100}%`;
           const idx = Math.min(Math.floor(p * 4), 3);
@@ -177,16 +177,16 @@ export default function HeroSequence() {
         },
       });
 
-      // Fade scroll indicator
+      // Fade scroll indicator — lingers until ~20% scroll
       gsap.to('.h-scroll', {
         opacity: 0,
-        scrollTrigger: { trigger: section, start: '2% top', end: '8% top', scrub: true },
+        scrollTrigger: { trigger: section, start: '8% top', end: '20% top', scrub: true },
       });
 
-      // Fade hero content midway
+      // Fade hero content — starts later, ends later, much smoother exit
       gsap.to('#h-content', {
-        opacity: 0, y: -80,
-        scrollTrigger: { trigger: section, start: '5% top', end: '25% top', scrub: true },
+        opacity: 0, y: -60,
+        scrollTrigger: { trigger: section, start: '20% top', end: '50% top', scrub: true },
       });
     }
 
@@ -225,7 +225,7 @@ export default function HeroSequence() {
       `}</style>
 
       {/* Scroll container — shortened to start next section sooner */}
-      <div ref={sectionRef} style={{ position: 'relative', height: '120vh' }}>
+      <div ref={sectionRef} style={{ position: 'relative', height: '250vh' }}>
 
         {/* Pinned hero panel */}
         <section
