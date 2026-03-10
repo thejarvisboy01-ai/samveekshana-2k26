@@ -117,7 +117,7 @@ const DEPARTMENTS_RAW = [
     date: 'March 11, 2026', location: 'AI Lab, New Block',
     rulebook: '/rulebook/rules and regulations  for samveekshana event AIDS.docx',
     rules: [
-      'Escape Room: Team of 2-4. Rs 300/- per team. Solve a series of puzzles and riddles within a time limit to escape.',
+      'Escape Room: Team of 2-3. Rs 300/- per team. Solve a series of puzzles and riddles within a time limit to escape.',
       'Tote Bag Painting: Individual. Rs 150/-. Creative expression on cotton bags provided by organizers (2-hour limit).',
       'Tote Bag Painting: Designs must be original. Pre-sketching or stencils are prohibited.',
       'Cheat hacks or harassment result in immediate disqualification.',
@@ -135,6 +135,7 @@ const DEPARTMENTS_RAW = [
           '🧩 Escape Room Challenge \u2013 Rules & Event Details',
           'Dear Participants, The Escape Room Event will begin at 11:30 AM. All participants are requested to assemble at the venue on time and carefully read the rules given below.',
           'General Rules',
+          '\u2022 Team size: 2-3 members per team.',
           '\u2022 Participants must follow the instructions given by the event coordinators at all times.',
           '\u2022 Pushing, running, or any unsafe behavior during the hunt is strictly prohibited.',
           '\u2022 Teams must respect college property and maintain proper discipline throughout the event.',
