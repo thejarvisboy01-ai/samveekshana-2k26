@@ -53,7 +53,7 @@ const CENTRAL_EVENTS = [
         ]
     },
     {
-        id: 'TLU', title: 'Talent Unleash', subtitle: 'Creative Expression Stage', description: 'Your stage awaits. Showcase your hidden talents — singing, dancing, comedy, or any unique skill.', date: 'March 12, 2026', location: 'Main Stage', color: 'from-[#e74c3c] to-[#c0392b]', image: '/events/talent unleash.png', rulebook: '/rulebook/Samveekshana_Events_Rules(CA).docx',
+        id: 'TLU', title: 'Talent Unleash', subtitle: 'Creative Expression Stage', description: 'Your stage awaits. Showcase your hidden talents — singing, dancing, comedy, or any unique skill.', date: 'March 11, 2026', location: 'Main Stage', color: 'from-[#e74c3c] to-[#c0392b]', image: '/events/talent unleash.png', rulebook: '/rulebook/Samveekshana_Events_Rules(CA).docx',
         rules: [
             'Open platform for talents like Singing, Dancing, Stand-up comedy, Mimicry, etc.',
             'Time Limit: Each performance will be restricted to a specific time slot.',
