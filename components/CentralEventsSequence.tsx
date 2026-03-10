@@ -63,7 +63,7 @@ const CENTRAL_EVENTS = [
         ]
     },
     {
-        id: 'CTF', title: 'Capture the Flag', subtitle: 'Cyber Defense Mission', description: 'A cybersecurity battleground. Hack, defend, and capture flags in this intense digital warfare challenge.', date: 'March 12, 2026', location: 'CSE Lab Block', color: 'from-[#008080] to-[#004d40]', image: '/events/capture the flag.png', rulebook: '/rulebook/Samveekshana_Events_Rules(CSE Dept).pdf',
+        id: 'CTF', title: 'Capture the Flag', subtitle: 'Cyber Defense Mission', description: 'A cybersecurity battleground. Hack, defend, and capture flags in this intense digital warfare challenge.', date: 'March 11, 2026', location: 'CSE Lab Block', color: 'from-[#008080] to-[#004d40]', image: '/events/capture the flag.png', rulebook: '/rulebook/Samveekshana_Events_Rules(CSE Dept).pdf',
         rules: [
             'Team Size: Team of 5 members.',
             'Registration Fees: Rs 200/- per team.',
@@ -74,7 +74,7 @@ const CENTRAL_EVENTS = [
         ]
     },
     {
-        id: 'VAL', title: 'Valorant', subtitle: 'Tactical Combat Unit', description: "Tactical shooter showdown. Assemble your squad and compete in Riot's premier FPS tournament.", date: 'March 12, 2026', location: 'Gaming Zone', color: 'from-[#ff4655] to-[#bd3944]', image: '/events/valorant.png', rulebook: '/rulebook/rules and regulations  for samveekshana event AIDS.docx',
+        id: 'VAL', title: 'Valorant', subtitle: 'Tactical Combat Unit', description: "Tactical shooter showdown. Assemble your squad and compete in Riot's premier FPS tournament.", date: 'March 11, 2026', location: 'Gaming Zone', color: 'from-[#ff4655] to-[#bd3944]', image: '/events/valorant.png', rulebook: '/rulebook/rules and regulations  for samveekshana event AIDS.docx',
         rules: [
             'Team Size: 5-member team.',
             'Tournament Format: Knockout basis. LAN-based matches.',
@@ -107,7 +107,7 @@ const CENTRAL_EVENTS = [
         ]
     },
     {
-        id: 'BBB', title: 'Brainy Bunch Battle', subtitle: 'Cognitive Arena', description: 'Battle of the brains. A multi-round quiz competition testing knowledge across science, tech, and pop culture.', date: 'March 12, 2026', location: 'Seminar Hall', color: 'from-[#3498db] to-[#2980b9]', image: '/events/Brainy Bunch Battel.png', rulebook: '/rulebook/Techanical Quiz Department Event.pdf',
+        id: 'BBB', title: 'Brainy Bunch Battle', subtitle: 'Cognitive Arena', description: 'Battle of the brains. A multi-round quiz competition testing knowledge across science, tech, and pop culture.', date: 'March 11, 2026', location: 'Seminar Hall', color: 'from-[#3498db] to-[#2980b9]', image: '/events/Brainy Bunch Battel.png', rulebook: '/rulebook/Techanical Quiz Department Event.pdf',
         rules: [
             'Team Size: Team of 2 members.',
             'Format: 6 rounds comprising visual questions, basic civil engineering, and fun non-technical rounds.',

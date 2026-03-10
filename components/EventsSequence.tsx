@@ -114,7 +114,7 @@ const DEPARTMENTS_RAW = [
     id: 'AI', title: 'AI & DS', subtitle: 'Dept. of AI & Data Science',
     color: 'from-[#00b4d8] to-[#0077b6]', image: '/ai.png',
     description: 'Intelligence redefined. AI & DS events explore the frontier of machine learning, data analysis, and intelligent system design.',
-    date: 'March 11 & 12, 2026', location: 'AI Lab, New Block',
+    date: 'March 11, 2026', location: 'AI Lab, New Block',
     rulebook: '/rulebook/rules and regulations  for samveekshana event AIDS.docx',
     rules: [
       'Escape Room: Team of 2-4. Rs 300/- per team. Solve a series of puzzles and riddles within a time limit to escape.',
@@ -124,8 +124,24 @@ const DEPARTMENTS_RAW = [
       'Winners receive special trophies and participation certificates.',
     ],
     events: [
-      { id: 'AI1', title: 'Escape Room', description: 'Solve AI-themed puzzles and riddles to escape before time runs out.', image: '/events/escape room .png', date: 'March 11 & 12, 2026', location: 'AI Lab, New Block' },
-      { id: 'AI2', title: 'Tote Bag Painting', description: 'Design and showcase your artistic skills on cotton bags.', image: '/events/totebag painting.png', date: 'March 11 & 12, 2026', location: 'AI Lab, New Block' },
+      {
+        id: 'AI1',
+        title: 'Escape Room',
+        description: 'Solve AI-themed puzzles and riddles to escape before time runs out.',
+        image: '/events/escape room .png',
+        date: 'March 11, 2026',
+        location: 'AI Lab, New Block',
+        rules: [
+          '🧩 Escape Room Challenge \u2013 Rules & Event Details',
+          'Dear Participants, The Escape Room Event will begin at 11:30 AM. All participants are requested to assemble at the venue on time and carefully read the rules given below.',
+          'General Rules',
+          '\u2022 Participants must follow the instructions given by the event coordinators at all times.',
+          '\u2022 Pushing, running, or any unsafe behavior during the hunt is strictly prohibited.',
+          '\u2022 Teams must respect college property and maintain proper discipline throughout the event.',
+          '\u2022 The decision of the judges and event organizers will be final in all matters.'
+        ]
+      },
+      { id: 'AI2', title: 'Tote Bag Painting', description: 'Design and showcase your artistic skills on cotton bags.', image: '/events/totebag painting.png', date: 'March 11, 2026', location: 'AI Lab, New Block' },
     ]
   },
   {
@@ -178,7 +194,7 @@ const DEPARTMENTS = [...DEPARTMENTS_RAW]
   })
   .map(dept => ({
     ...dept,
-    events: dept.events.map(ev => ({ ...ev, rulebook: dept.rulebook }))
+    events: dept.events.map(ev => ({ ...ev, rulebook: dept.rulebook, rules: (ev as any).rules || dept.rules }))
   }));
 
 const REGISTRATION_BASE_URL = process.env.NEXT_PUBLIC_REGISTRATION_URL || 'https://register.samveekshana.tech/';
@@ -731,7 +747,7 @@ export default function EventsSequence({ progress }: { progress: MotionValue<num
                     dept={DEPARTMENTS[activeIndex!]}
                     eventIndex={activeEventIndex}
                     setEventIndex={setActiveEventIndex}
-                    onOpenRulebook={(ev) => setRulebookEvent({ ...ev, rules: DEPARTMENTS[activeIndex!].rules })}
+                    onOpenRulebook={(ev) => setRulebookEvent(ev)}
                   />
                 </motion.div>
 
@@ -1328,7 +1344,7 @@ function HolographicRulebook({
           {/* Inner top shimmer */}
           <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-[#008080]/60 to-transparent" />
 
-          {event.rulebook && (
+          {event.rulebook && event.id !== 'AI1' && (
             <div className="relative z-10 px-3 pt-3 md:hidden">
               <motion.a
                 href={event.rulebook}
@@ -1467,7 +1483,7 @@ function HolographicRulebook({
                         <span className="text-sm text-[#D4AF37]/40"> / {String(event.rules.length).padStart(2, '0')}</span>
                       </div>
                     </div>
-                    {event.rulebook && (
+                    {event.rulebook && event.id !== 'AI1' && (
                       <motion.a
                         href={event.rulebook}
                         download
